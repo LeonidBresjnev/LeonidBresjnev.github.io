@@ -119,6 +119,8 @@ describe("App", () => {
 
     expect(container.querySelector(".lucide-sparkles")).not.toBeInTheDocument();
     expect(container.querySelector(".lucide-monitor-play")).not.toBeInTheDocument();
+    expect(container.querySelector(".lucide-cpu")).not.toBeInTheDocument();
+    expect(container.querySelector(".lucide-chart-spline")).toBeInTheDocument();
     expect(container.querySelector(".lucide-headphones")).toBeInTheDocument();
   });
 

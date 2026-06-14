@@ -4,7 +4,7 @@ import {
   BadgeCheck,
   BookOpen,
   Boxes,
-  Cpu,
+  ChartSpline,
   Database,
   ExternalLink,
   Github,
@@ -37,7 +37,7 @@ const projects = [
     name: "Bayesian information borrowing",
     href: "https://leonidbresjnev.github.io/funwithwasm/",
     repoHref: "https://github.com/LeonidBresjnev/funwithwasm",
-    icon: Cpu,
+    icon: ChartSpline,
     blurb: "Browser experiments powered by WebAssembly modules.",
     frameworks: [
       { name: "Bayesian modelling", logos: ["bayes"] },
