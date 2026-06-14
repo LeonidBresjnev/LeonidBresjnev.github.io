@@ -40,7 +40,10 @@ const projects = [
     href: "https://leonidbresjnev.github.io/funwithwasm/",
     icon: Cpu,
     blurb: "Browser experiments powered by WebAssembly modules.",
-    frameworks: [{ name: "Kotlin/WASM", tone: "kotlin" }],
+    frameworks: [
+      { name: "Kotlin/WASM", tone: "kotlin" },
+      { name: "Jetpack Compose", tone: "compose" },
+    ],
     tags: ["WASM", "Performance"],
   },
   {

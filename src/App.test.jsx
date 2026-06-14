@@ -76,13 +76,13 @@ describe("App", () => {
     expect(screen.queryByText("Three.js")).not.toBeInTheDocument();
     expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
     expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
-    expect(screen.getByText("Jetpack Compose")).toBeInTheDocument();
+    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(2);
   });
 
   it("uses consistent GitHub-style colors for repeated stack badges", () => {
     render(<App />);
 
-    for (const label of ["JavaScript/React", "Kotlin/WASM"]) {
+    for (const label of ["JavaScript/React", "Kotlin/WASM", "Jetpack Compose"]) {
       const renderedStyles = getStackBadgeStyles(label);
 
       expect(renderedStyles).toHaveLength(2);
