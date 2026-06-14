@@ -19,6 +19,7 @@ const projects = [
   {
     name: "Bibliografi",
     href: "https://leonidbresjnev.github.io/bibliografi/",
+    repoHref: "https://github.com/LeonidBresjnev/bibliografi",
     icon: BookOpen,
     blurb: "A curated project focused on references and structure.",
     frameworks: [
@@ -30,6 +31,7 @@ const projects = [
   {
     name: "Rubik Cube Solver",
     href: "https://leonidbresjnev.github.io/rubiks-cube/",
+    repoHref: "https://github.com/LeonidBresjnev/rubiks-cube",
     icon: Boxes,
     blurb: "Interactive cube solving visuals and algorithmic twists.",
     frameworks: [{ name: "JavaScript/React", tone: "javascriptReact" }],
@@ -38,6 +40,7 @@ const projects = [
   {
     name: "Fun with WASM",
     href: "https://leonidbresjnev.github.io/funwithwasm/",
+    repoHref: "https://github.com/LeonidBresjnev/funwithwasm",
     icon: Cpu,
     blurb: "Browser experiments powered by WebAssembly modules.",
     frameworks: [
@@ -49,6 +52,7 @@ const projects = [
   {
     name: "Fun with OpenFDA",
     href: "https://leonidbresjnev.github.io/funwithopenfda/",
+    repoHref: "https://github.com/LeonidBresjnev/visualopenfda",
     icon: Database,
     blurb: "A visual interface to OpenFDA with text-context search using OpenAI.",
     frameworks: [
@@ -144,7 +148,7 @@ function App() {
         </header>
 
         <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 xl:grid-cols-4">
-          {projects.map(({ name, href, icon: Icon, blurb, frameworks, tags }, index) => (
+          {projects.map(({ name, href, repoHref, icon: Icon, blurb, frameworks, tags }, index) => (
             <article
               key={name}
               className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${projectDelayClasses[index]}`}
@@ -184,9 +188,7 @@ function App() {
                     >
                       <Circle
                         size={10}
-                        fill="currentColor"
-                        strokeWidth={0}
-                        className={frameworkToneClasses[tone].dot}
+                        className={`${frameworkToneClasses[tone].dot} fill-current stroke-0`}
                         aria-hidden="true"
                       />
                       {frameworkName}
@@ -195,13 +197,22 @@ function App() {
                 </div>
               </div>
 
-              <a
-                href={href}
-                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-100 px-3 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
-              >
-                Open project
-                <ArrowUpRight size={16} />
-              </a>
+              <div className="mt-6 grid grid-cols-2 gap-2">
+                <a
+                  href={href}
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-sky-100 px-2.5 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
+                >
+                  Open page
+                  <ArrowUpRight size={15} className="shrink-0" />
+                </a>
+                <a
+                  href={repoHref}
+                  className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                >
+                  Open project
+                  <Github size={15} className="shrink-0" />
+                </a>
+              </div>
             </article>
           ))}
         </section>

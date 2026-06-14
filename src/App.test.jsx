@@ -4,10 +4,26 @@ import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
 
 const projects = [
-  ["Bibliografi", "https://leonidbresjnev.github.io/bibliografi/"],
-  ["Rubik Cube Solver", "https://leonidbresjnev.github.io/rubiks-cube/"],
-  ["Fun with WASM", "https://leonidbresjnev.github.io/funwithwasm/"],
-  ["Fun with OpenFDA", "https://leonidbresjnev.github.io/funwithopenfda/"],
+  [
+    "Bibliografi",
+    "https://leonidbresjnev.github.io/bibliografi/",
+    "https://github.com/LeonidBresjnev/bibliografi",
+  ],
+  [
+    "Rubik Cube Solver",
+    "https://leonidbresjnev.github.io/rubiks-cube/",
+    "https://github.com/LeonidBresjnev/rubiks-cube",
+  ],
+  [
+    "Fun with WASM",
+    "https://leonidbresjnev.github.io/funwithwasm/",
+    "https://github.com/LeonidBresjnev/funwithwasm",
+  ],
+  [
+    "Fun with OpenFDA",
+    "https://leonidbresjnev.github.io/funwithopenfda/",
+    "https://github.com/LeonidBresjnev/visualopenfda",
+  ],
 ];
 
 const getStackBadgeStyles = (label) =>
@@ -56,9 +72,13 @@ describe("App", () => {
     expect(screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
       .toEqual(projects.map(([name]) => name));
 
+    expect(screen.getAllByRole("link", { name: /open page/i })).toHaveLength(projects.length);
+    screen.getAllByRole("link", { name: /open page/i }).forEach((link, index) => {
+      expect(link).toHaveAttribute("href", projects[index][1]);
+    });
     expect(screen.getAllByRole("link", { name: /open project/i })).toHaveLength(projects.length);
     screen.getAllByRole("link", { name: /open project/i }).forEach((link, index) => {
-      expect(link).toHaveAttribute("href", projects[index][1]);
+      expect(link).toHaveAttribute("href", projects[index][2]);
     });
 
     expect(screen.getByText("A visual interface to OpenFDA with text-context search using OpenAI."))
