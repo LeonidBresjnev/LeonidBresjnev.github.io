@@ -1,20 +1,16 @@
+import React from "react";
 import {
   ArrowUpRight,
   BadgeCheck,
   BookOpen,
   Boxes,
-  Code2,
-  Compass,
   Cpu,
+  Database,
   ExternalLink,
-  Flame,
   Github,
   Globe2,
   Layers,
   Sparkles,
-  Star,
-  TimerReset,
-  WandSparkles,
 } from "lucide-react";
 
 const projects = [
@@ -39,30 +35,45 @@ const projects = [
     blurb: "Browser experiments powered by WebAssembly modules.",
     tags: ["WASM", "Performance"],
   },
+  {
+    name: "Fun with OpenFDA",
+    href: "https://leonidbresjnev.github.io/funwithopenfda/",
+    icon: Database,
+    blurb: "A visual interface to OpenFDA with text-context search using OpenAI.",
+    tags: ["OpenFDA", "OpenAI"],
+  },
 ];
 
 const highlights = [
-  { label: "Projects", value: "03", icon: Layers },
+  { label: "Projects", value: "04", icon: Layers },
   { label: "Live with Pages", value: "100%", icon: Globe2 },
-  { label: "Crafted for Speed", value: "Vite", icon: TimerReset },
+];
+
+const highlightDelayClasses = [
+  "[animation-delay:0ms]",
+  "[animation-delay:110ms]",
+];
+
+const projectDelayClasses = [
+  "[animation-delay:130ms]",
+  "[animation-delay:250ms]",
+  "[animation-delay:370ms]",
+  "[animation-delay:490ms]",
 ];
 
 function App() {
   return (
     <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute -left-24 top-8 h-72 w-72 rounded-full bg-sky-400/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
-
       <main className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-8 sm:px-8 sm:py-10">
-        <header className="animate-appear rounded-3xl border border-white/15 bg-white/5 p-5 backdrop-blur-xl sm:p-7">
+        <header className="animate-appear rounded-3xl border border-sky-200 bg-white p-5 shadow-glow sm:p-7">
           <div className="mb-5 flex items-center justify-between gap-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300/40 bg-emerald-200/10 px-3 py-1 text-xs tracking-wide text-emerald-200">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs tracking-wide text-emerald-800">
               <BadgeCheck size={14} />
               Live portfolio links
             </div>
             <a
               href="https://github.com/leonidbresjnev"
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-2 text-sm text-slate-100 transition hover:border-sky-300/60 hover:bg-sky-400/10"
+              className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-100 px-4 py-2 text-sm text-slate-800 transition hover:border-sky-400 hover:bg-sky-200"
             >
               <Github size={16} />
               GitHub
@@ -70,54 +81,51 @@ function App() {
             </a>
           </div>
 
-          <h1 className="font-display text-4xl leading-tight text-white sm:text-6xl">
+          <h1 className="font-display text-4xl leading-tight text-slate-950 sm:text-6xl">
             Jacob Simonsen
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-200 sm:text-lg">
-            Playful, fast, and vibrant web experiments. This landing page is rebuilt with Vite,
-            Tailwind CSS, and Lucide for a crisp, animated directory of GitHub Pages projects.
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-700 sm:text-lg">
+            A landing page for my GitHub projects and published GitHub Pages sites.
           </p>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-3">
             {highlights.map(({ label, value, icon: Icon }, index) => (
               <div
                 key={label}
-                className="animate-appear rounded-2xl border border-white/15 bg-slate-900/55 p-4"
-                style={{ animationDelay: `${index * 110}ms` }}
+                className={`animate-appear rounded-2xl border border-sky-100 bg-sky-50 p-4 ${highlightDelayClasses[index]}`}
               >
-                <div className="mb-2 inline-flex rounded-lg bg-white/10 p-2">
-                  <Icon size={16} className="text-amber-200" />
+                <div className="mb-2 inline-flex rounded-lg bg-white p-2">
+                  <Icon size={16} className="text-sky-700" />
                 </div>
-                <div className="font-display text-2xl text-white">{value}</div>
-                <div className="text-sm text-slate-300">{label}</div>
+                <div className="font-display text-2xl text-slate-950">{value}</div>
+                <div className="text-sm text-slate-600">{label}</div>
               </div>
             ))}
           </div>
         </header>
 
-        <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-3">
+        <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 xl:grid-cols-4">
           {projects.map(({ name, href, icon: Icon, blurb, tags }, index) => (
             <article
               key={name}
-              className="group animate-appear relative overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-5 shadow-glow backdrop-blur-xl transition hover:-translate-y-1 hover:border-sky-300/40"
-              style={{ animationDelay: `${130 + index * 120}ms` }}
+              className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${projectDelayClasses[index]}`}
             >
-              <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-white/8 p-2 text-sky-200 transition group-hover:animate-floaty">
+              <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-sky-50 p-2 text-sky-700 transition group-hover:animate-floaty">
                 <Sparkles size={14} />
               </div>
 
-              <div className="mb-4 inline-flex rounded-xl border border-white/10 bg-black/20 p-3 text-amber-200">
+              <div className="mb-4 inline-flex rounded-xl border border-sky-100 bg-sky-50 p-3 text-sky-700">
                 <Icon size={19} />
               </div>
 
-              <h2 className="font-display text-2xl text-white">{name}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-200">{blurb}</p>
+              <h2 className="font-display text-2xl text-slate-950">{name}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-slate-700">{blurb}</p>
 
               <div className="mt-4 flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-xs uppercase tracking-wide text-slate-200"
+                    className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs uppercase tracking-wide text-slate-700"
                   >
                     {tag}
                   </span>
@@ -126,7 +134,7 @@ function App() {
 
               <a
                 href={href}
-                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white transition hover:border-emerald-300/60 hover:bg-emerald-300/15"
+                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-sky-200 bg-sky-100 px-3 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
               >
                 Open project
                 <ArrowUpRight size={16} />
@@ -135,30 +143,6 @@ function App() {
           ))}
         </section>
 
-        <footer className="mt-6 animate-appear rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-xs text-slate-300 backdrop-blur-lg sm:mt-8 sm:text-sm">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5">
-              <Compass size={14} className="text-cyan-200" />
-              Built with Vite + npm
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <WandSparkles size={14} className="text-amber-200" />
-              Styled with Tailwind
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Code2 size={14} className="text-emerald-200" />
-              Icons by Lucide
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Flame size={14} className="text-orange-200" />
-              Deployed via GitHub Pages
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Star size={14} className="text-fuchsia-200" />
-              Jacob Simonsen
-            </span>
-          </div>
-        </footer>
       </main>
     </div>
   );
