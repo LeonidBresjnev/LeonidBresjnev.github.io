@@ -79,7 +79,7 @@ const projects = [
 
 const highlights = [
   { label: "Projects", value: "05", icon: Layers },
-  { label: "Live with Pages", value: "100%", icon: Globe2 },
+  { label: "Pages sites", value: "04", icon: Globe2 },
 ];
 
 const highlightDelayClasses = [

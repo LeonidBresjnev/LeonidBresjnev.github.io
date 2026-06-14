@@ -24,6 +24,11 @@ const projects = [
     "https://leonidbresjnev.github.io/funwithopenfda/",
     "https://github.com/LeonidBresjnev/visualopenfda",
   ],
+  [
+    "myMediaPlayer",
+    null,
+    "https://github.com/LeonidBresjnev/myMediaPlayer",
+  ],
 ];
 
 const getStackBadgeLogoSignatures = (label) =>
@@ -69,9 +74,10 @@ describe("App", () => {
     expect(screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
       .toEqual(projects.map(([name]) => name));
 
-    expect(screen.getAllByRole("link", { name: /open page/i })).toHaveLength(projects.length);
+    const projectsWithPages = projects.filter(([, pageHref]) => pageHref);
+    expect(screen.getAllByRole("link", { name: /open page/i })).toHaveLength(projectsWithPages.length);
     screen.getAllByRole("link", { name: /open page/i }).forEach((link, index) => {
-      expect(link).toHaveAttribute("href", projects[index][1]);
+      expect(link).toHaveAttribute("href", projectsWithPages[index][1]);
     });
     expect(screen.getAllByRole("link", { name: /open project/i })).toHaveLength(projects.length);
     screen.getAllByRole("link", { name: /open project/i }).forEach((link, index) => {
@@ -94,7 +100,10 @@ describe("App", () => {
     expect(screen.queryByText("Three.js")).not.toBeInTheDocument();
     expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
     expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
-    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(2);
+    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(3);
+    expect(screen.getByText("C++")).toBeInTheDocument();
+    expect(screen.getByText("Kotlin")).toBeInTheDocument();
+    expect(screen.getAllByText("Android")).toHaveLength(2);
   });
 
   it("renders stack logos for the named technologies", () => {
@@ -103,9 +112,15 @@ describe("App", () => {
     expect(container.querySelectorAll('[data-logo="bibtex"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(2);
     expect(container.querySelectorAll('[data-logo="react"]')).toHaveLength(2);
-    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(3);
+    expect(container.querySelectorAll('[data-logo="cplusplus"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(4);
     expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(3);
+    expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
+    expect(container.querySelector('[data-logo="cplusplus"]')).toHaveAttribute(
+      "src",
+      "./logos/cplusplus.svg",
+    );
     expect(container.querySelector('[data-logo="kotlin"]')).toHaveAttribute(
       "src",
       "./logos/kotlin.svg",
@@ -123,10 +138,16 @@ describe("App", () => {
   it("uses consistent logos for repeated stack badges", () => {
     render(<App />);
 
-    for (const label of ["JavaScript/React", "Kotlin/WASM", "Jetpack Compose"]) {
+    const repeatedStacks = [
+      ["JavaScript/React", 2],
+      ["Kotlin/WASM", 2],
+      ["Jetpack Compose", 3],
+    ];
+
+    for (const [label, expectedCount] of repeatedStacks) {
       const renderedLogoSignatures = getStackBadgeLogoSignatures(label);
 
-      expect(renderedLogoSignatures).toHaveLength(2);
+      expect(renderedLogoSignatures).toHaveLength(expectedCount);
       expect(new Set(renderedLogoSignatures.map((signature) => signature.join("|"))).size).toBe(1);
     }
   });
