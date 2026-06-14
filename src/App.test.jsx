@@ -110,7 +110,14 @@ describe("App", () => {
     const { container } = render(<App />);
 
     expect(container.querySelectorAll(".uppercase.tracking-wide")).toHaveLength(0);
-    expect(container).not.toHaveTextContent(/Knowledge|Structure|Visualization|Algorithms|Performance|Media/);
+  });
+
+  it("keeps card icons purposeful and removes decorative sparkles", () => {
+    const { container } = render(<App />);
+
+    expect(container.querySelector(".lucide-sparkles")).not.toBeInTheDocument();
+    expect(container.querySelector(".lucide-monitor-play")).not.toBeInTheDocument();
+    expect(container.querySelector(".lucide-headphones")).toBeInTheDocument();
   });
 
   it("renders stack logos for the named technologies", () => {

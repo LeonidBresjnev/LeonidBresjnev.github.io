@@ -9,9 +9,8 @@ import {
   ExternalLink,
   Github,
   Globe2,
+  Headphones,
   Layers,
-  MonitorPlay,
-  Sparkles,
 } from "lucide-react";
 
 const projects = [
@@ -60,7 +59,7 @@ const projects = [
   {
     name: "myMediaPlayer",
     repoHref: "https://github.com/LeonidBresjnev/myMediaPlayer",
-    icon: MonitorPlay,
+    icon: Headphones,
     blurb: "Android media player project with native and Kotlin UI layers.",
     frameworks: [
       { name: "C++", logos: ["cplusplus"] },
@@ -248,15 +247,13 @@ function App() {
               key={name}
               className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${projectDelayClasses[index]}`}
             >
-              <div className="pointer-events-none absolute right-3 top-3 rounded-full bg-sky-50 p-2 text-sky-700 transition group-hover:animate-floaty">
-                <Sparkles size={14} />
+              <div className="flex items-start gap-3">
+                <div className="inline-flex shrink-0 rounded-xl border border-sky-100 bg-sky-50 p-3 text-sky-700">
+                  <Icon size={19} />
+                </div>
+                <h2 className="font-display text-2xl text-slate-950">{name}</h2>
               </div>
 
-              <div className="mb-4 inline-flex rounded-xl border border-sky-100 bg-sky-50 p-3 text-sky-700">
-                <Icon size={19} />
-              </div>
-
-              <h2 className="font-display text-2xl text-slate-950">{name}</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-700">{blurb}</p>
 
               <div className="mt-5 border-t border-sky-100 pt-4">
