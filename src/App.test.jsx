@@ -25,9 +25,19 @@ const projects = [
     "https://github.com/LeonidBresjnev/visualopenfda",
   ],
   [
+    "Crossplatform Capstone Project",
+    "https://leonidbresjnev.github.io/CrossplatformCapstoneProject/",
+    "https://github.com/LeonidBresjnev/CrossplatformCapstoneProject",
+  ],
+  [
     "myMediaPlayer",
     null,
     "https://github.com/LeonidBresjnev/myMediaPlayer",
+  ],
+  [
+    "filterexplorer",
+    null,
+    "https://github.com/LeonidBresjnev/filterexplorer.git",
   ],
 ];
 
@@ -86,6 +96,13 @@ describe("App", () => {
 
     expect(screen.getByText("A visual interface to OpenFDA with text-context search using OpenAI."))
       .toBeInTheDocument();
+    expect(screen.getByText("Tutorial project building a restaurant mobile app with a cross-platform stack."))
+      .toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Android media player project with native and Kotlin UI layers, using digital signal processing to control the equalizer.",
+      ),
+    ).toBeInTheDocument();
   });
 
   it("shows stack badges sourced from the project repositories", () => {
@@ -95,6 +112,8 @@ describe("App", () => {
     expect(screen.getByLabelText("BibTeX")).toBeInTheDocument();
     expect(screen.queryByText("\\BibTex")).not.toBeInTheDocument();
     expect(screen.getAllByText("JavaScript/React")).toHaveLength(2);
+    expect(screen.getByText("Expo")).toBeInTheDocument();
+    expect(screen.getByText("JavaScript")).toBeInTheDocument();
     expect(screen.queryByText("Vite")).not.toBeInTheDocument();
     expect(screen.queryByText("React")).not.toBeInTheDocument();
     expect(screen.queryByText("Three.js")).not.toBeInTheDocument();
@@ -102,9 +121,9 @@ describe("App", () => {
     expect(screen.getByText("Bayesian modelling")).toBeInTheDocument();
     expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
     expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
-    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(3);
+    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(4);
     expect(screen.getByText("C++")).toBeInTheDocument();
-    expect(screen.getByText("Kotlin")).toBeInTheDocument();
+    expect(screen.getAllByText("Kotlin")).toHaveLength(2);
     expect(screen.getByText("Android")).toBeInTheDocument();
   });
 
@@ -122,19 +141,21 @@ describe("App", () => {
     expect(container.querySelector(".lucide-cpu")).not.toBeInTheDocument();
     expect(container.querySelector(".lucide-chart-spline")).toBeInTheDocument();
     expect(container.querySelector(".lucide-headphones")).toBeInTheDocument();
+    expect(container.querySelector(".lucide-smartphone")).toBeInTheDocument();
   });
 
   it("renders stack logos for the named technologies", () => {
     const { container } = render(<App />);
 
     expect(container.querySelectorAll('[data-logo="bibtex"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(3);
     expect(container.querySelectorAll('[data-logo="react"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="expo"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="bayes"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="cplusplus"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(4);
+    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(5);
     expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(3);
+    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(4);
     expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
     expect(container.querySelector('[data-logo="bayes"]')).toHaveAttribute(
       "src",
@@ -164,7 +185,8 @@ describe("App", () => {
     const repeatedStacks = [
       ["JavaScript/React", 2],
       ["Kotlin/WASM", 2],
-      ["Jetpack Compose", 3],
+      ["Kotlin", 2],
+      ["Jetpack Compose", 4],
     ];
 
     for (const [label, expectedCount] of repeatedStacks) {

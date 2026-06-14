@@ -7,6 +7,7 @@ const expectedProjects = [
   ["Rubik Cube Solver", "https://leonidbresjnev.github.io/rubiks-cube/"],
   ["Bayesian information borrowing", "https://leonidbresjnev.github.io/funwithwasm/"],
   ["Fun with OpenFDA", "https://leonidbresjnev.github.io/funwithopenfda/"],
+  ["Crossplatform Capstone Project", "https://leonidbresjnev.github.io/CrossplatformCapstoneProject/"],
 ];
 
 const implementationCopy = [
@@ -47,6 +48,7 @@ test("React app includes the same project links in the intended order", async ()
 
   assert.match(app, /A landing page for my GitHub projects and published GitHub Pages sites\./);
   assert.match(app, /A visual interface to OpenFDA with text-context search using OpenAI\./);
+  assert.match(app, /Tutorial project building a restaurant mobile app with a cross-platform stack\./);
   assert.equal(app.includes('name: "Fun with WASM"'), false);
 });
 
