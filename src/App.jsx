@@ -4,7 +4,6 @@ import {
   BadgeCheck,
   BookOpen,
   Boxes,
-  Code2,
   Cpu,
   Database,
   ExternalLink,
@@ -26,7 +25,6 @@ const projects = [
       { name: "BibTeX", logos: ["bibtex"], mark: "bibtex" },
       { name: "JavaScript/React", logos: ["javascript", "react"] },
     ],
-    tags: ["Knowledge", "Structure"],
   },
   {
     name: "Rubik Cube Solver",
@@ -35,7 +33,6 @@ const projects = [
     icon: Boxes,
     blurb: "Interactive cube solving visuals and algorithmic twists.",
     frameworks: [{ name: "JavaScript/React", logos: ["javascript", "react"] }],
-    tags: ["Visualization", "Algorithms"],
   },
   {
     name: "Fun with WASM",
@@ -47,7 +44,6 @@ const projects = [
       { name: "Kotlin/WASM", logos: ["kotlin"] },
       { name: "Jetpack Compose", logos: ["compose"] },
     ],
-    tags: ["WASM", "Performance"],
   },
   {
     name: "Fun with OpenFDA",
@@ -60,7 +56,6 @@ const projects = [
       { name: "Kotlin/Ktor", logos: ["kotlin", "ktor"] },
       { name: "Jetpack Compose", logos: ["compose"] },
     ],
-    tags: ["OpenFDA", "OpenAI"],
   },
   {
     name: "myMediaPlayer",
@@ -73,7 +68,6 @@ const projects = [
       { name: "Jetpack Compose", logos: ["compose"] },
       { name: "Android", logos: ["android"] },
     ],
-    tags: ["Media", "Android"],
   },
 ];
 
@@ -248,8 +242,8 @@ function App() {
           </div>
         </header>
 
-        <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {projects.map(({ name, href, repoHref, icon: Icon, blurb, frameworks, tags }, index) => (
+        <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map(({ name, href, repoHref, icon: Icon, blurb, frameworks }, index) => (
             <article
               key={name}
               className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${projectDelayClasses[index]}`}
@@ -265,22 +259,7 @@ function App() {
               <h2 className="font-display text-2xl text-slate-950">{name}</h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-700">{blurb}</p>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs uppercase tracking-wide text-slate-700"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
               <div className="mt-5 border-t border-sky-100 pt-4">
-                <div className="mb-2 inline-flex items-center gap-2 text-xs uppercase tracking-wide text-slate-500">
-                  <Code2 size={14} />
-                  Stack
-                </div>
                 <div className="flex flex-wrap gap-2">
                   {frameworks.map(({ name: frameworkName, logos, mark }) => (
                     <span

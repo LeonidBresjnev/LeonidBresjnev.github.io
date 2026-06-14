@@ -91,7 +91,7 @@ describe("App", () => {
   it("shows stack badges sourced from the project repositories", () => {
     render(<App />);
 
-    expect(screen.getAllByText("Stack")).toHaveLength(projects.length);
+    expect(screen.queryByText("Stack")).not.toBeInTheDocument();
     expect(screen.getByLabelText("BibTeX")).toBeInTheDocument();
     expect(screen.queryByText("\\BibTex")).not.toBeInTheDocument();
     expect(screen.getAllByText("JavaScript/React")).toHaveLength(2);
@@ -103,7 +103,14 @@ describe("App", () => {
     expect(screen.getAllByText("Jetpack Compose")).toHaveLength(3);
     expect(screen.getByText("C++")).toBeInTheDocument();
     expect(screen.getByText("Kotlin")).toBeInTheDocument();
-    expect(screen.getAllByText("Android")).toHaveLength(2);
+    expect(screen.getByText("Android")).toBeInTheDocument();
+  });
+
+  it("does not render the old card tag chips", () => {
+    const { container } = render(<App />);
+
+    expect(container.querySelectorAll(".uppercase.tracking-wide")).toHaveLength(0);
+    expect(container).not.toHaveTextContent(/Knowledge|Structure|Visualization|Algorithms|Performance|Media/);
   });
 
   it("renders stack logos for the named technologies", () => {
