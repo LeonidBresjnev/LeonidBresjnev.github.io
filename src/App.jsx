@@ -4,6 +4,8 @@ import {
   BadgeCheck,
   BookOpen,
   Boxes,
+  Circle,
+  Code2,
   Cpu,
   Database,
   ExternalLink,
@@ -19,6 +21,10 @@ const projects = [
     href: "https://leonidbresjnev.github.io/bibliografi/",
     icon: BookOpen,
     blurb: "A curated project focused on references and structure.",
+    frameworks: [
+      { name: "BibTeX", tone: "bibtex" },
+      { name: "JavaScript/React", tone: "javascriptReact" },
+    ],
     tags: ["Knowledge", "Structure"],
   },
   {
@@ -26,6 +32,7 @@ const projects = [
     href: "https://leonidbresjnev.github.io/rubiks-cube/",
     icon: Boxes,
     blurb: "Interactive cube solving visuals and algorithmic twists.",
+    frameworks: [{ name: "JavaScript/React", tone: "javascriptReact" }],
     tags: ["Visualization", "Algorithms"],
   },
   {
@@ -33,6 +40,7 @@ const projects = [
     href: "https://leonidbresjnev.github.io/funwithwasm/",
     icon: Cpu,
     blurb: "Browser experiments powered by WebAssembly modules.",
+    frameworks: [{ name: "Kotlin/WASM", tone: "kotlin" }],
     tags: ["WASM", "Performance"],
   },
   {
@@ -40,6 +48,11 @@ const projects = [
     href: "https://leonidbresjnev.github.io/funwithopenfda/",
     icon: Database,
     blurb: "A visual interface to OpenFDA with text-context search using OpenAI.",
+    frameworks: [
+      { name: "Kotlin/WASM", tone: "kotlin" },
+      { name: "Kotlin/Ktor", tone: "ktor" },
+      { name: "Jetpack Compose", tone: "compose" },
+    ],
     tags: ["OpenFDA", "OpenAI"],
   },
 ];
@@ -60,6 +73,29 @@ const projectDelayClasses = [
   "[animation-delay:370ms]",
   "[animation-delay:490ms]",
 ];
+
+const frameworkToneClasses = {
+  bibtex: {
+    badge: "border-[#3d6117]/35 bg-[#3d6117]/10 text-slate-900",
+    dot: "text-[#3d6117]",
+  },
+  javascriptReact: {
+    badge: "border-[#f1e05a]/55 bg-[#f1e05a]/20 text-slate-900",
+    dot: "text-[#f1e05a]",
+  },
+  kotlin: {
+    badge: "border-[#a97bff]/45 bg-[#a97bff]/15 text-slate-900",
+    dot: "text-[#a97bff]",
+  },
+  ktor: {
+    badge: "border-[#087cfa]/40 bg-[#087cfa]/10 text-slate-900",
+    dot: "text-[#087cfa]",
+  },
+  compose: {
+    badge: "border-[#3ddc84]/45 bg-[#3ddc84]/15 text-slate-900",
+    dot: "text-[#3ddc84]",
+  },
+};
 
 function App() {
   return (
@@ -105,7 +141,7 @@ function App() {
         </header>
 
         <section className="mt-6 grid gap-4 sm:mt-8 sm:grid-cols-2 xl:grid-cols-4">
-          {projects.map(({ name, href, icon: Icon, blurb, tags }, index) => (
+          {projects.map(({ name, href, icon: Icon, blurb, frameworks, tags }, index) => (
             <article
               key={name}
               className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${projectDelayClasses[index]}`}
@@ -130,6 +166,30 @@ function App() {
                     {tag}
                   </span>
                 ))}
+              </div>
+
+              <div className="mt-5 border-t border-sky-100 pt-4">
+                <div className="mb-2 inline-flex items-center gap-2 text-xs uppercase tracking-wide text-slate-500">
+                  <Code2 size={14} />
+                  Stack
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {frameworks.map(({ name: frameworkName, tone }) => (
+                    <span
+                      key={frameworkName}
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${frameworkToneClasses[tone].badge}`}
+                    >
+                      <Circle
+                        size={10}
+                        fill="currentColor"
+                        strokeWidth={0}
+                        className={frameworkToneClasses[tone].dot}
+                        aria-hidden="true"
+                      />
+                      {frameworkName}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               <a
