@@ -15,7 +15,7 @@ const projects = [
     "https://github.com/LeonidBresjnev/rubiks-cube",
   ],
   [
-    "Fun with WASM",
+    "Bayesian information borrowing",
     "https://leonidbresjnev.github.io/funwithwasm/",
     "https://github.com/LeonidBresjnev/funwithwasm",
   ],
@@ -98,6 +98,8 @@ describe("App", () => {
     expect(screen.queryByText("Vite")).not.toBeInTheDocument();
     expect(screen.queryByText("React")).not.toBeInTheDocument();
     expect(screen.queryByText("Three.js")).not.toBeInTheDocument();
+    expect(screen.queryByText("Fun with WASM")).not.toBeInTheDocument();
+    expect(screen.getByText("Bayesian modelling")).toBeInTheDocument();
     expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
     expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
     expect(screen.getAllByText("Jetpack Compose")).toHaveLength(3);
@@ -126,11 +128,16 @@ describe("App", () => {
     expect(container.querySelectorAll('[data-logo="bibtex"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(2);
     expect(container.querySelectorAll('[data-logo="react"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="bayes"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="cplusplus"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(4);
     expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(3);
     expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
+    expect(container.querySelector('[data-logo="bayes"]')).toHaveAttribute(
+      "src",
+      "./logos/bayes.png",
+    );
     expect(container.querySelector('[data-logo="cplusplus"]')).toHaveAttribute(
       "src",
       "./logos/cplusplus.svg",
