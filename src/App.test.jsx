@@ -26,7 +26,7 @@ const projects = [
   ],
 ];
 
-const getStackBadgeStyles = (label) =>
+const getStackBadgeLogoSignatures = (label) =>
   screen.getAllByText(label).map((badgeText) => {
     const badge = badgeText.closest("span");
 
@@ -34,16 +34,13 @@ const getStackBadgeStyles = (label) =>
       throw new Error(`Missing stack badge for ${label}`);
     }
 
-    const colorIcon = badge.querySelector("svg");
+    const logos = [...badge.querySelectorAll("[data-logo]")];
 
-    if (!colorIcon) {
-      throw new Error(`Missing color icon for ${label}`);
+    if (logos.length === 0) {
+      throw new Error(`Missing stack logo for ${label}`);
     }
 
-    return {
-      badgeClass: badge.getAttribute("class"),
-      iconClass: colorIcon.getAttribute("class"),
-    };
+    return logos.map((logo) => `${logo.getAttribute("data-logo")}:${logo.getAttribute("class")}`);
   });
 
 afterEach(() => {
@@ -89,7 +86,8 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getAllByText("Stack")).toHaveLength(projects.length);
-    expect(screen.getByText("BibTeX")).toBeInTheDocument();
+    expect(screen.getByLabelText("BibTeX")).toBeInTheDocument();
+    expect(screen.queryByText("\\BibTex")).not.toBeInTheDocument();
     expect(screen.getAllByText("JavaScript/React")).toHaveLength(2);
     expect(screen.queryByText("Vite")).not.toBeInTheDocument();
     expect(screen.queryByText("React")).not.toBeInTheDocument();
@@ -99,15 +97,37 @@ describe("App", () => {
     expect(screen.getAllByText("Jetpack Compose")).toHaveLength(2);
   });
 
-  it("uses consistent GitHub-style colors for repeated stack badges", () => {
+  it("renders stack logos for the named technologies", () => {
+    const { container } = render(<App />);
+
+    expect(container.querySelectorAll('[data-logo="bibtex"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="react"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(3);
+    expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(2);
+    expect(container.querySelector('[data-logo="kotlin"]')).toHaveAttribute(
+      "src",
+      "./logos/kotlin.svg",
+    );
+    expect(container.querySelector('[data-logo="ktor"]')).toHaveAttribute(
+      "src",
+      "./logos/ktor.svg",
+    );
+    expect(container.querySelector('[data-logo="compose"]')).toHaveAttribute(
+      "src",
+      "./logos/jetpack-compose.png",
+    );
+  });
+
+  it("uses consistent logos for repeated stack badges", () => {
     render(<App />);
 
     for (const label of ["JavaScript/React", "Kotlin/WASM", "Jetpack Compose"]) {
-      const renderedStyles = getStackBadgeStyles(label);
+      const renderedLogoSignatures = getStackBadgeLogoSignatures(label);
 
-      expect(renderedStyles).toHaveLength(2);
-      expect(new Set(renderedStyles.map(({ badgeClass }) => badgeClass)).size).toBe(1);
-      expect(new Set(renderedStyles.map(({ iconClass }) => iconClass)).size).toBe(1);
+      expect(renderedLogoSignatures).toHaveLength(2);
+      expect(new Set(renderedLogoSignatures.map((signature) => signature.join("|"))).size).toBe(1);
     }
   });
 
