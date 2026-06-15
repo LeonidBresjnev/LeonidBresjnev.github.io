@@ -1,14 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-
-const expectedProjects = [
-  ["Bibliografi", "https://leonidbresjnev.github.io/bibliografi/"],
-  ["Rubik Cube Solver", "https://leonidbresjnev.github.io/rubiks-cube/"],
-  ["Bayesian information borrowing", "https://leonidbresjnev.github.io/funwithwasm/"],
-  ["Fun with OpenFDA", "https://leonidbresjnev.github.io/funwithopenfda/"],
-  ["Crossplatform Capstone Project", "https://leonidbresjnev.github.io/CrossplatformCapstoneProject/"],
-];
+import { projects } from "../src/projects.js";
 
 const implementationCopy = [
   "Built with Vite",
@@ -60,29 +53,45 @@ test("README presents the landing page and project links in order", async () => 
   assert.match(readme, /Landing page: https:\/\/leonidbresjnev\.github\.io\//);
 
   const listedProjects = [...readme.matchAll(/^\d+\.\s+\[([^\]]+)\]\(([^)]+)\)/gm)].map(
-    ([, name, href]) => [name, href],
+    ([, name, href]) => ({ name, href }),
   );
 
-  assert.deepEqual(listedProjects, expectedProjects);
+  assert.deepEqual(
+    listedProjects,
+    projects.map(({ name, href, repoHref }) => ({ name, href: href ?? repoHref })),
+  );
 });
 
-test("React app includes the same project links in the intended order", async () => {
+test("shared project data includes the intended links in order", async () => {
   const app = await readText("src/App.jsx");
+  const header = await readText("src/components/LandingHeader.jsx");
+  const projectData = await readText("src/projects.js");
   let previousIndex = -1;
 
-  for (const [name, href] of expectedProjects) {
-    const nameIndex = app.indexOf(`name: "${name}"`);
-    const hrefIndex = app.indexOf(`href: "${href}"`);
+  for (const { name, href, repoHref } of projects) {
+    const nameIndex = projectData.indexOf(`name: "${name}"`);
 
     assert.ok(nameIndex > previousIndex, `${name} should appear after the previous project`);
-    assert.ok(hrefIndex > nameIndex, `${name} should include its GitHub Pages URL`);
+
+    if (href) {
+      const hrefIndex = projectData.indexOf(`href: "${href}"`);
+
+      assert.ok(hrefIndex > nameIndex, `${name} should include its GitHub Pages URL`);
+    }
+
+    const repoIndex = projectData.indexOf(`repoHref: "${repoHref}"`);
+
+    assert.ok(repoIndex > nameIndex, `${name} should include its GitHub repository URL`);
     previousIndex = nameIndex;
   }
 
-  assert.match(app, /A landing page for my GitHub projects and published GitHub Pages sites\./);
-  assert.match(app, /A visual interface to OpenFDA with text-context search using OpenAI\./);
-  assert.match(app, /Tutorial project building a restaurant mobile app with a cross-platform stack\./);
-  assert.equal(app.includes('name: "Fun with WASM"'), false);
+  assert.match(app, /import \{ projects \} from "\.\/projects"/);
+  assert.match(app, /<ProjectCard\b/);
+  assert.match(app, /<LandingHeader \/>/);
+  assert.match(header, /A landing page for my GitHub projects and published GitHub Pages sites\./);
+  assert.match(projectData, /A visual interface to OpenFDA with text-context search using OpenAI\./);
+  assert.match(projectData, /Tutorial project building a restaurant mobile app with a cross-platform stack\./);
+  assert.equal(projectData.includes('name: "Fun with WASM"'), false);
 });
 
 test("HTML shell wires the app and person favicon", async () => {
@@ -111,17 +120,21 @@ test("landing content avoids removed implementation copy and wiki links", async 
 test("styling stays Tailwind-first and interface icons stay Lucide-first", async () => {
   const css = await readText("src/index.css");
   const app = await readText("src/App.jsx");
+  const header = await readText("src/components/LandingHeader.jsx");
+  const projectCard = await readText("src/components/ProjectCard.jsx");
 
   for (const directive of ["@tailwind base;", "@tailwind components;", "@tailwind utilities;"]) {
     assert.ok(css.includes(directive), `${directive} should remain in the global stylesheet`);
   }
 
   assert.match(css, /body\s*{[^}]*@apply\b[^}]*}/s);
-  assert.match(app, /from "lucide-react"/);
-  assert.equal(/\bstyle=/.test(app), false, "Inline styles should not replace Tailwind utilities");
+  assert.match(projectCard, /from "lucide-react"/);
+  const componentSources = `${app}\n${header}\n${projectCard}`;
+
+  assert.equal(/\bstyle=/.test(componentSources), false, "Inline styles should not replace Tailwind utilities");
 
   for (const icon of ["ArrowUpRight", "BadgeCheck", "Github", "ExternalLink"]) {
-    assert.match(app, new RegExp(`\\b${icon}\\b`), `${icon} should remain a Lucide UI icon`);
+    assert.match(componentSources, new RegExp(`\\b${icon}\\b`), `${icon} should remain a Lucide UI icon`);
   }
 });
 
@@ -129,6 +142,9 @@ test("external links resolve without broken responses", { timeout: 45000 }, asyn
   const files = [
     ["README.md", await readText("README.md")],
     ["src/App.jsx", await readText("src/App.jsx")],
+    ["src/components/LandingHeader.jsx", await readText("src/components/LandingHeader.jsx")],
+    ["src/components/ProjectCard.jsx", await readText("src/components/ProjectCard.jsx")],
+    ["src/projects.js", await readText("src/projects.js")],
   ];
   const linksByHref = new Map();
 
