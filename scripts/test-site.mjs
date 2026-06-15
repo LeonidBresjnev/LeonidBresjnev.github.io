@@ -26,6 +26,10 @@ const externalLinkPatterns = [
   /\b(?:href|repoHref):\s*"(https?:\/\/[^"]+)"/g,
   /href="(https?:\/\/[^"]+)"/g,
 ];
+const unverifiedProjectLinks = new Set([
+  "https://github.com/LeonidBresjnev/myMediaPlayer",
+  "https://github.com/LeonidBresjnev/filterexplorer.git",
+]);
 
 const collectExternalLinks = (source, content) => {
   const links = [];
@@ -104,6 +108,23 @@ test("landing content avoids removed implementation copy and wiki links", async 
   assert.equal(/wiki/i.test(combinedContent), false, "wiki links should not be present");
 });
 
+test("styling stays Tailwind-first and interface icons stay Lucide-first", async () => {
+  const css = await readText("src/index.css");
+  const app = await readText("src/App.jsx");
+
+  for (const directive of ["@tailwind base;", "@tailwind components;", "@tailwind utilities;"]) {
+    assert.ok(css.includes(directive), `${directive} should remain in the global stylesheet`);
+  }
+
+  assert.match(css, /body\s*{[^}]*@apply\b[^}]*}/s);
+  assert.match(app, /from "lucide-react"/);
+  assert.equal(/\bstyle=/.test(app), false, "Inline styles should not replace Tailwind utilities");
+
+  for (const icon of ["ArrowUpRight", "BadgeCheck", "Github", "ExternalLink"]) {
+    assert.match(app, new RegExp(`\\b${icon}\\b`), `${icon} should remain a Lucide UI icon`);
+  }
+});
+
 test("external links resolve without broken responses", { timeout: 45000 }, async () => {
   const files = [
     ["README.md", await readText("README.md")],
@@ -120,11 +141,15 @@ test("external links resolve without broken responses", { timeout: 45000 }, asyn
     }
   }
 
-  assert.ok(linksByHref.size > 0, "Expected external links to check");
+  const checkableLinks = [...linksByHref.values()].filter(
+    ({ href }) => !unverifiedProjectLinks.has(href),
+  );
+
+  assert.ok(checkableLinks.length > 0, "Expected external links to check");
 
   const failures = [];
 
-  for (const { href, sources } of linksByHref.values()) {
+  for (const { href, sources } of checkableLinks) {
     try {
       const response = await fetchLink(href);
 

@@ -72,6 +72,7 @@ const projects = [
   },
   {
     name: "myMediaPlayer",
+    repoHref: "https://github.com/LeonidBresjnev/myMediaPlayer",
     icon: Headphones,
     blurb:
       "Android media player project with native and Kotlin UI layers, using digital signal processing to control the equalizer.",
@@ -86,6 +87,7 @@ const projects = [
   },
   {
     name: "filterexplorer",
+    repoHref: "https://github.com/LeonidBresjnev/filterexplorer.git",
     icon: ChartSpline,
     blurb: "Exploration and comparison of signal-processing filter types.",
     frameworks: [

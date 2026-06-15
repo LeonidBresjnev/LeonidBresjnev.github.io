@@ -32,12 +32,12 @@ const projects = [
   [
     "myMediaPlayer",
     null,
-    null,
+    "https://github.com/LeonidBresjnev/myMediaPlayer",
   ],
   [
     "filterexplorer",
     null,
-    null,
+    "https://github.com/LeonidBresjnev/filterexplorer.git",
   ],
 ];
 
@@ -147,6 +147,26 @@ describe("App", () => {
     expect(container.querySelector(".lucide-chart-spline")).toBeInTheDocument();
     expect(container.querySelector(".lucide-headphones")).toBeInTheDocument();
     expect(container.querySelector(".lucide-smartphone")).toBeInTheDocument();
+  });
+
+  it("keeps visible UI styling Tailwind-first and icon actions Lucide-first", () => {
+    const { container } = render(<App />);
+
+    expect(container.querySelector("[style]")).not.toBeInTheDocument();
+    expect(container.firstElementChild).toHaveClass("relative", "overflow-hidden");
+    expect(container.querySelector("main")).toHaveClass("mx-auto", "flex", "min-h-screen");
+    expect(container.querySelector("header")).toHaveClass("animate-appear", "bg-white", "shadow-glow");
+    expect(container.querySelector(".lucide-badge-check")).toBeInTheDocument();
+
+    for (const card of container.querySelectorAll("article")) {
+      expect(card).toHaveClass("group", "animate-appear", "border", "bg-white");
+      expect(card.querySelector("svg.lucide")).toBeInTheDocument();
+    }
+
+    for (const link of screen.getAllByRole("link")) {
+      expect(link).toHaveClass("inline-flex");
+      expect(link.querySelector("svg.lucide")).toBeInTheDocument();
+    }
   });
 
   it("renders stack logos for the named technologies", () => {
