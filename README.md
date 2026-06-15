@@ -17,7 +17,7 @@ Landing page: https://leonidbresjnev.github.io/
    - Bayesian modelling
    - Kotlin/WASM
    - Jetpack Compose
-4. [Fun with OpenFDA](https://leonidbresjnev.github.io/funwithopenfda/) ([GitHub](https://github.com/LeonidBresjnev/visualopenfda))
+4. [Fun with OpenFDA](https://leonidbresjnev.github.io/funwithopenfda/) ([GitHub](https://github.com/LeonidBresjnev/funwithopenfda))
    - Kotlin/WASM
    - Kotlin/Ktor
    - Jetpack Compose
