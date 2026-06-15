@@ -20,6 +20,35 @@ const implementationCopy = [
 
 const readText = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
+const linkCheckTimeoutMs = 15000;
+const externalLinkPatterns = [
+  /\[[^\]]+\]\((https?:\/\/[^)\s]+)\)/g,
+  /\b(?:href|repoHref):\s*"(https?:\/\/[^"]+)"/g,
+  /href="(https?:\/\/[^"]+)"/g,
+];
+
+const collectExternalLinks = (source, content) => {
+  const links = [];
+
+  for (const pattern of externalLinkPatterns) {
+    for (const [, href] of content.matchAll(pattern)) {
+      links.push({ href, source });
+    }
+  }
+
+  return links;
+};
+
+const fetchLink = async (href) =>
+  fetch(href, {
+    redirect: "follow",
+    signal: AbortSignal.timeout(linkCheckTimeoutMs),
+    headers: {
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "User-Agent": "jacob-simonsen-landing-link-check/1.0",
+    },
+  });
+
 test("README presents the landing page and project links in order", async () => {
   const readme = await readText("README.md");
 
@@ -73,4 +102,39 @@ test("landing content avoids removed implementation copy and wiki links", async 
   }
 
   assert.equal(/wiki/i.test(combinedContent), false, "wiki links should not be present");
+});
+
+test("external links resolve without broken responses", { timeout: 45000 }, async () => {
+  const files = [
+    ["README.md", await readText("README.md")],
+    ["src/App.jsx", await readText("src/App.jsx")],
+  ];
+  const linksByHref = new Map();
+
+  for (const [source, content] of files) {
+    for (const { href } of collectExternalLinks(source, content)) {
+      const entry = linksByHref.get(href) ?? { href, sources: [] };
+
+      entry.sources.push(source);
+      linksByHref.set(href, entry);
+    }
+  }
+
+  assert.ok(linksByHref.size > 0, "Expected external links to check");
+
+  const failures = [];
+
+  for (const { href, sources } of linksByHref.values()) {
+    try {
+      const response = await fetchLink(href);
+
+      if (!response.ok) {
+        failures.push(`${href} returned HTTP ${response.status} (${sources.join(", ")})`);
+      }
+    } catch (error) {
+      failures.push(`${href} failed: ${error.message} (${sources.join(", ")})`);
+    }
+  }
+
+  assert.equal(failures.length, 0, `Broken links found:\n${failures.join("\n")}`);
 });

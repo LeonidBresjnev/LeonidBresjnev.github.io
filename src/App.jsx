@@ -72,7 +72,6 @@ const projects = [
   },
   {
     name: "myMediaPlayer",
-    repoHref: "https://github.com/LeonidBresjnev/myMediaPlayer",
     icon: Headphones,
     blurb:
       "Android media player project with native and Kotlin UI layers, using digital signal processing to control the equalizer.",
@@ -87,7 +86,6 @@ const projects = [
   },
   {
     name: "filterexplorer",
-    repoHref: "https://github.com/LeonidBresjnev/filterexplorer.git",
     icon: ChartSpline,
     blurb: "Exploration and comparison of signal-processing filter types.",
     frameworks: [
@@ -322,24 +320,32 @@ function App() {
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-2">
-                {href ? (
-                  <a
-                    href={href}
-                    className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-sky-100 px-2.5 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
-                  >
-                    Open page
-                    <ArrowUpRight size={15} className="shrink-0" />
-                  </a>
-                ) : null}
-                <a
-                  href={repoHref}
-                  className={`inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 ${href ? "" : "col-span-2"}`}
+              {href || repoHref ? (
+                <div
+                  className={`mt-6 grid gap-2 ${
+                    href && repoHref ? "grid-cols-2" : "grid-cols-1"
+                  }`}
                 >
-                  Open project
-                  <Github size={15} className="shrink-0" />
-                </a>
-              </div>
+                  {href ? (
+                    <a
+                      href={href}
+                      className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-sky-100 px-2.5 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
+                    >
+                      Open page
+                      <ArrowUpRight size={15} className="shrink-0" />
+                    </a>
+                  ) : null}
+                  {repoHref ? (
+                    <a
+                      href={repoHref}
+                      className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+                    >
+                      Open project
+                      <Github size={15} className="shrink-0" />
+                    </a>
+                  ) : null}
+                </div>
+              ) : null}
             </article>
           ))}
         </section>

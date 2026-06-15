@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "test": "npm run test:content && npm run test:app",
+    "test": "node scripts/run-tests.mjs",
     "test:content": "node scripts/test-site.mjs",
     "test:app": "vitest run",
     "build": "vite build",

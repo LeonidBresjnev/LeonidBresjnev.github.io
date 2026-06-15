@@ -32,12 +32,12 @@ const projects = [
   [
     "myMediaPlayer",
     null,
-    "https://github.com/LeonidBresjnev/myMediaPlayer",
+    null,
   ],
   [
     "filterexplorer",
     null,
-    "https://github.com/LeonidBresjnev/filterexplorer.git",
+    null,
   ],
 ];
 
@@ -89,9 +89,12 @@ describe("App", () => {
     screen.getAllByRole("link", { name: /open page/i }).forEach((link, index) => {
       expect(link).toHaveAttribute("href", projectsWithPages[index][1]);
     });
-    expect(screen.getAllByRole("link", { name: /open project/i })).toHaveLength(projects.length);
+    const projectsWithRepos = projects.filter(([, , repoHref]) => repoHref);
+    expect(screen.getAllByRole("link", { name: /open project/i })).toHaveLength(
+      projectsWithRepos.length,
+    );
     screen.getAllByRole("link", { name: /open project/i }).forEach((link, index) => {
-      expect(link).toHaveAttribute("href", projects[index][2]);
+      expect(link).toHaveAttribute("href", projectsWithRepos[index][2]);
     });
 
     expect(screen.getByText("A visual interface to OpenFDA with text-context search using OpenAI."))
