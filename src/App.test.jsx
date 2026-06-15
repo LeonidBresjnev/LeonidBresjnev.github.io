@@ -22,7 +22,7 @@ const projects = [
   [
     "Fun with OpenFDA",
     "https://leonidbresjnev.github.io/funwithopenfda/",
-    "https://github.com/LeonidBresjnev/visualopenfda",
+    "https://github.com/LeonidBresjnev/funwithopenfda",
   ],
   [
     "Crossplatform Capstone Project",
