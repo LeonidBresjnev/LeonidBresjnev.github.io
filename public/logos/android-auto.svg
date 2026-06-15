@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2751 2813.6" xml:space="preserve">
+<g>
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="#03A9F4" d="M187.6,2438.4C84,2438.4,0,2354.4,0,2250.8c0-34.1,9.1-66.1,25.1-93.6L1213,94c32.2-56.1,92.9-94,162.4-94s130.2,37.9,162.5,94l1188,2063.2c16,27.5,25.1,59.5,25.1,93.6c0,103.6-84,187.6-187.6,187.6H187.6z"/>
+  <linearGradient id="android-auto-gradient" gradientUnits="userSpaceOnUse" x1="1039.8481" y1="1466.2634" x2="2691.9006" y2="2404.459">
+    <stop offset="0" style="stop-color:#1A237E;stop-opacity:0.2"/>
+    <stop offset="1" style="stop-color:#1A237E;stop-opacity:0.02"/>
+  </linearGradient>
+  <path fill="url(#android-auto-gradient)" d="M2751,2250.9L1375.4,875.3v1563h1188C2667,2438.4,2750.9,2354.4,2751,2250.9z"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="#039BE5" d="M1212.9,94L25.1,2157.1c-16,27.5-25.1,59.5-25.1,93.6c0,103.6,84,187.6,187.6,187.6h1188V0C1305.9,0,1245.2,37.9,1212.9,94L1212.9,94z"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="#F1F1F1" d="M1375.4,875.3L2438.2,2751l-62.6,62.6l-1000.4-375.1l-1000.2,375l-62.6-62.6L1375.4,875.3z"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="#E1E1E1" d="M1375.4,875.3L2438.2,2751l-62.6,62.6l-1000.4-375.1"/>
+  <polygon opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" points="1375.4,891.3 2432.5,2756.8 2438.2,2751 1375.4,875.3 312.5,2750.9 318.3,2756.7"/>
+  <path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" fill="#1A237E" d="M489.6,2424.4h-302c-101.3,0-183.8-80.3-187.5-180.7c-0.1,2.3-0.1,4.7-0.1,7.1c0,103.6,84,187.6,187.6,187.6h294.1L489.6,2424.4z"/>
+  <polygon opacity="0.07" fill-rule="evenodd" clip-rule="evenodd" points="2375.7,2799.6 1375.3,2424.5 375.1,2799.5 317.6,2741.9 312.5,2750.9 375.1,2813.5 1375.3,2438.5 2375.7,2813.6 2438.2,2751 2433.2,2742.1"/>
+  <path opacity="0.2" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="M25.1,2171.1L1212.9,108c16.2-28.1,39.5-51.6,67.4-68.1c27.9-16.5,60.4-25.9,95.1-25.9h0.2v0c69.5,0,130.1,37.9,162.4,94l1188,2063.2c14.9,25.6,23.7,55.1,24.9,86.5c0-0.6,0-1.1,0.1-1.7c0-0.1,0-0.2,0-0.3c0-1.5,0.1-3,0.1-4.5c0-0.1,0-0.2,0-0.3l0,0v-0.1c0-34.1-9.1-66.1-25.1-93.6L1538,94c-32.3-56.1-93-93.9-162.4-94v0h-0.2c-34.7,0-67.2,9.4-95,25.9c-28,16.5-51.3,40-67.5,68.1L25.1,2157.1c-16,27.5-25.1,59.5-25.1,93.6c0,2.3,0.1,4.6,0.1,6.9C1.3,2226.2,10.2,2196.8,25.1,2171.1z"/>
+</g>
+</svg>

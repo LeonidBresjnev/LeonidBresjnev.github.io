@@ -125,6 +125,8 @@ describe("App", () => {
     expect(screen.getByText("C++")).toBeInTheDocument();
     expect(screen.getAllByText("Kotlin")).toHaveLength(2);
     expect(screen.getByText("Android")).toBeInTheDocument();
+    expect(screen.getByText("Android Auto")).toBeInTheDocument();
+    expect(screen.getAllByText("Signal processing")).toHaveLength(2);
   });
 
   it("does not render the old card tag chips", () => {
@@ -157,6 +159,8 @@ describe("App", () => {
     expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(4);
     expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo="android-auto"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-logo="signal-processing"]')).toHaveLength(2);
     expect(container.querySelector('[data-logo="bayes"]')).toHaveAttribute(
       "src",
       "./logos/bayes.png",
@@ -177,6 +181,10 @@ describe("App", () => {
       "src",
       "./logos/jetpack-compose.png",
     );
+    expect(container.querySelector('[data-logo="android-auto"]')).toHaveAttribute(
+      "src",
+      "./logos/android-auto.svg",
+    );
   });
 
   it("uses consistent logos for repeated stack badges", () => {
@@ -187,6 +195,7 @@ describe("App", () => {
       ["Kotlin/WASM", 2],
       ["Kotlin", 2],
       ["Jetpack Compose", 4],
+      ["Signal processing", 2],
     ];
 
     for (const [label, expectedCount] of repeatedStacks) {
