@@ -1,9 +1,9 @@
 # Jacob Simonsen
 
-[![Build](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
-[![Tests](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
-[![Lint](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
-[![Deploy](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
+[![Build](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/build.yml)
+[![Tests](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/tests.yml)
+[![Lint](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/lint.yml)
+[![Deploy](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/deploy.yml)
 
 Landing page: https://leonidbresjnev.github.io/
 

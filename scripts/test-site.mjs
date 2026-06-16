@@ -23,6 +23,9 @@ const unverifiedProjectLinks = new Set([
   "https://github.com/LeonidBresjnev/myMediaPlayer",
   "https://github.com/LeonidBresjnev/filterexplorer.git",
 ]);
+const unverifiedLinkPatterns = [
+  /^https:\/\/github\.com\/LeonidBresjnev\/LeonidBresjnev\.github\.io\/actions\/workflows\/[^/]+\.yml\/badge\.svg\?branch=main$/,
+];
 
 const collectExternalLinks = (source, content) => {
   const links = [];
@@ -60,6 +63,24 @@ test("README presents the landing page and project links in order", async () => 
     listedProjects,
     projects.map(({ name, href, repoHref }) => ({ name, href: href ?? repoHref })),
   );
+});
+
+test("README exposes separate workflow badges", async () => {
+  const readme = await readText("README.md");
+  const workflowBadges = [
+    ["Build", "build.yml"],
+    ["Tests", "tests.yml"],
+    ["Lint", "lint.yml"],
+    ["Deploy", "deploy.yml"],
+  ];
+
+  for (const [label, workflowFile] of workflowBadges) {
+    const badge = `[![${label}](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/${workflowFile}/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/${workflowFile})`;
+
+    assert.ok(readme.includes(badge), `README should include the ${label} workflow badge`);
+  }
+
+  assert.equal(readme.includes("/actions/workflows/pages.yml"), false);
 });
 
 test("shared project data includes the intended links in order", async () => {
@@ -158,7 +179,9 @@ test("external links resolve without broken responses", { timeout: 45000 }, asyn
   }
 
   const checkableLinks = [...linksByHref.values()].filter(
-    ({ href }) => !unverifiedProjectLinks.has(href),
+    ({ href }) =>
+      !unverifiedProjectLinks.has(href) &&
+      !unverifiedLinkPatterns.some((pattern) => pattern.test(href)),
   );
 
   assert.ok(checkableLinks.length > 0, "Expected external links to check");
