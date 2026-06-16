@@ -56,7 +56,8 @@ const renderBuildSummary = async () => {
   const packageJson = await readJson("package.json");
   const files = await getDistFiles();
   const status = process.env.BUILD_STATUS ?? (files ? "Completed" : "No dist output found");
-  const commit = process.env.GITHUB_SHA ? process.env.GITHUB_SHA.slice(0, 7) : "local";
+  const sourceSha = process.env.SOURCE_SHA || process.env.GITHUB_SHA;
+  const commit = sourceSha ? sourceSha.slice(0, 7) : "local";
   const branch = process.env.GITHUB_REF_NAME ?? "local";
   const runUrl =
     process.env.GITHUB_SERVER_URL && process.env.GITHUB_REPOSITORY && process.env.GITHUB_RUN_ID

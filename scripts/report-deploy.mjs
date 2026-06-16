@@ -3,7 +3,8 @@ import { appendFile } from "node:fs/promises";
 const deployStatus = process.env.DEPLOY_STATUS ?? "Unknown";
 const pageUrl = process.env.PAGE_URL || "Unavailable";
 const environmentName = process.env.DEPLOY_ENVIRONMENT ?? "github-pages";
-const commit = process.env.GITHUB_SHA ? process.env.GITHUB_SHA.slice(0, 7) : "local";
+const sourceSha = process.env.SOURCE_SHA || process.env.GITHUB_SHA;
+const commit = sourceSha ? sourceSha.slice(0, 7) : "local";
 const branch = process.env.GITHUB_REF_NAME ?? "local";
 const workflow = process.env.GITHUB_WORKFLOW ?? "Deploy";
 const runUrl =
