@@ -1,11 +1,42 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { projects } from "../src/projects.js";
 
 const readText = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const requiredProjectFields = ["name", "repoHref", "icon", "blurb", "frameworks"];
 const validIconNames = new Set(["book", "boxes", "chart", "database", "headphones", "smartphone"]);
+const workflowSpecs = [
+  {
+    label: "Build",
+    file: "build.yml",
+    requiredContent: ["name: Build", "npm run readme:update", "npm run build"],
+    forbiddenContent: ["actions/deploy-pages", "npm run test:content", "npm run lint"],
+  },
+  {
+    label: "Tests",
+    file: "tests.yml",
+    requiredContent: ["name: Tests", "npm run test:content", "npm run test:app"],
+    forbiddenContent: ["actions/deploy-pages", "npm run build"],
+  },
+  {
+    label: "Lint",
+    file: "lint.yml",
+    requiredContent: ["name: Lint", "npm run lint"],
+    forbiddenContent: ["actions/deploy-pages", "npm run build", "npm run test:app"],
+  },
+  {
+    label: "Deploy",
+    file: "deploy.yml",
+    requiredContent: [
+      "name: Deploy",
+      "npm run build",
+      "actions/upload-pages-artifact",
+      "actions/deploy-pages",
+    ],
+    forbiddenContent: ["npm run lint", "npm run test:app"],
+  },
+];
 
 const projectLink = ({ name, href, repoHref }) => {
   if (href && repoHref) {
@@ -80,6 +111,41 @@ const lintReadme = async () => {
   assert.ok(readme.includes(expectedBlock), "README project list is not up to date with src/projects.js");
 };
 
+const collectNpmScripts = (source) =>
+  [...source.matchAll(/\bnpm\s+run\s+([A-Za-z0-9:_-]+)/g)].map(([, scriptName]) => scriptName);
+
+const lintWorkflowContracts = async () => {
+  const readme = (await readText("README.md")).replaceAll("\r\n", "\n");
+  const packageJson = JSON.parse(await readText("package.json"));
+  const packageScripts = new Set(Object.keys(packageJson.scripts ?? {}));
+  const workflowDirectory = new URL("../.github/workflows/", import.meta.url);
+  const workflowFiles = new Set(await readdir(workflowDirectory));
+
+  assert.equal(workflowFiles.has("pages.yml"), false, "Remove the old combined pages.yml workflow");
+
+  for (const { label, file, requiredContent, forbiddenContent } of workflowSpecs) {
+    assert.ok(workflowFiles.has(file), `Missing ${file} workflow`);
+
+    const workflow = await readText(`.github/workflows/${file}`);
+    const badge = `[![${label}](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/${file}/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/${file})`;
+
+    assert.ok(readme.includes(badge), `README must include the ${label} badge for ${file}`);
+
+    for (const snippet of requiredContent) {
+      assert.ok(workflow.includes(snippet), `${file} must include "${snippet}"`);
+    }
+
+    for (const snippet of forbiddenContent) {
+      assert.equal(workflow.includes(snippet), false, `${file} should not include "${snippet}"`);
+    }
+
+    for (const scriptName of collectNpmScripts(workflow)) {
+      assert.ok(packageScripts.has(scriptName), `${file} references missing package script "${scriptName}"`);
+    }
+  }
+};
+
 lintProjectData();
 await lintComponents();
 await lintReadme();
+await lintWorkflowContracts();
