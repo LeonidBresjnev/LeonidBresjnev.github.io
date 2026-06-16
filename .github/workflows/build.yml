@@ -47,3 +47,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Publish build summary
+        if: always()
+        env:
+          BUILD_STATUS: ${{ job.status }}
+        run: npm run summary:build

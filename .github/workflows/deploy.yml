@@ -44,6 +44,12 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Publish build summary
+        if: always()
+        env:
+          BUILD_STATUS: ${{ job.status }}
+        run: npm run summary:build
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
@@ -52,3 +58,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Publish deploy summary
+        if: always()
+        env:
+          DEPLOY_ENVIRONMENT: github-pages
+          DEPLOY_STATUS: ${{ job.status }}
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: npm run summary:deploy

@@ -11,6 +11,8 @@
     "test:content": "node scripts/test-site.mjs",
     "test:app": "vitest run",
     "build": "vite build",
+    "summary:build": "node scripts/report-build.mjs",
+    "summary:deploy": "node scripts/report-deploy.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

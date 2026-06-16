@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readdir, readFile } from "node:fs/promises";
+import { appendFile, readdir, readFile } from "node:fs/promises";
 import { projects } from "../src/projects.js";
 
 const readText = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
@@ -10,7 +10,7 @@ const workflowSpecs = [
   {
     label: "Build",
     file: "build.yml",
-    requiredContent: ["name: Build", "npm run readme:update", "npm run build"],
+    requiredContent: ["name: Build", "npm run readme:update", "npm run build", "npm run summary:build"],
     forbiddenContent: ["actions/deploy-pages", "npm run test:content", "npm run lint"],
   },
   {
@@ -31,6 +31,8 @@ const workflowSpecs = [
     requiredContent: [
       "name: Deploy",
       "npm run build",
+      "npm run summary:build",
+      "npm run summary:deploy",
       "actions/upload-pages-artifact",
       "actions/deploy-pages",
     ],
@@ -77,6 +79,20 @@ const lintProjectData = () => {
       assert.ok(framework.logos.length > 0, `${project.name}/${framework.name} needs at least one logo`);
     }
   }
+
+  const frameworkCount = projects.reduce((total, project) => total + project.frameworks.length, 0);
+  const logoCount = projects.reduce(
+    (total, project) =>
+      total + project.frameworks.reduce((frameworkTotal, framework) => frameworkTotal + framework.logos.length, 0),
+    0,
+  );
+
+  return [
+    `${projects.length} projects checked`,
+    `${frameworkCount} framework entries checked`,
+    `${logoCount} logo references checked`,
+    `${validIconNames.size} allowed icon keys enforced`,
+  ];
 };
 
 const lintComponents = async () => {
@@ -97,6 +113,13 @@ const lintComponents = async () => {
     assert.match(source, /import React from "react";/, `${path} must import React for JSX`);
     assert.equal(/\bstyle=/.test(source), false, `${path} should use Tailwind classes instead of inline style`);
   }
+
+  return [
+    `${jsxSources.length} JSX component files checked`,
+    "Expected component imports verified",
+    "React imports verified for JSX",
+    "Inline style attributes rejected",
+  ];
 };
 
 const lintReadme = async () => {
@@ -109,6 +132,11 @@ const lintReadme = async () => {
   ].join("\n");
 
   assert.ok(readme.includes(expectedBlock), "README project list is not up to date with src/projects.js");
+
+  return [
+    "Generated project block matches src/projects.js",
+    `${projects.length} README project entries checked`,
+  ];
 };
 
 const collectNpmScripts = (source) =>
@@ -120,6 +148,8 @@ const lintWorkflowContracts = async () => {
   const packageScripts = new Set(Object.keys(packageJson.scripts ?? {}));
   const workflowDirectory = new URL("../.github/workflows/", import.meta.url);
   const workflowFiles = new Set(await readdir(workflowDirectory));
+  const checkedScriptReferences = [];
+  const workflowSummaries = [];
 
   assert.equal(workflowFiles.has("pages.yml"), false, "Remove the old combined pages.yml workflow");
 
@@ -139,13 +169,90 @@ const lintWorkflowContracts = async () => {
       assert.equal(workflow.includes(snippet), false, `${file} should not include "${snippet}"`);
     }
 
-    for (const scriptName of collectNpmScripts(workflow)) {
+    const workflowScripts = collectNpmScripts(workflow);
+
+    for (const scriptName of workflowScripts) {
       assert.ok(packageScripts.has(scriptName), `${file} references missing package script "${scriptName}"`);
+      checkedScriptReferences.push(`${file}: ${scriptName}`);
     }
+
+    workflowSummaries.push(`${file}: ${workflowScripts.join(", ") || "no npm scripts"}`);
+  }
+
+  return [
+    `${workflowSpecs.length} workflow files checked`,
+    `${workflowSpecs.length} README workflow badges checked`,
+    `${checkedScriptReferences.length} npm script references checked`,
+    ...workflowSummaries,
+  ];
+};
+
+const escapeTableCell = (value) => String(value).replaceAll("|", "\\|").replaceAll("\n", "<br>");
+
+const formatError = (error) => {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return String(error);
+};
+
+const renderSummary = (results) => {
+  const failedCount = results.filter(({ status }) => status === "Failed").length;
+  const passedCount = results.length - failedCount;
+  const lines = [
+    "# Lint Summary",
+    "",
+    `Overall result: ${failedCount === 0 ? "Passed" : "Failed"}`,
+    "",
+    `Checks passed: ${passedCount}`,
+    `Checks failed: ${failedCount}`,
+    "",
+    "| Check | Result | Notes |",
+    "| --- | --- | --- |",
+  ];
+
+  for (const { name, status, details } of results) {
+    lines.push(
+      `| ${escapeTableCell(name)} | ${status} | ${escapeTableCell(details.map((detail) => `- ${detail}`).join("\n"))} |`,
+    );
+  }
+
+  return `${lines.join("\n")}\n`;
+};
+
+const writeSummary = async (summary) => {
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    await appendFile(process.env.GITHUB_STEP_SUMMARY, summary);
+  }
+
+  console.log(summary);
+};
+
+const runLint = async () => {
+  const checks = [
+    ["Project data", lintProjectData],
+    ["Components", lintComponents],
+    ["README", lintReadme],
+    ["Workflow contracts", lintWorkflowContracts],
+  ];
+  const results = [];
+
+  for (const [name, check] of checks) {
+    try {
+      const details = await check();
+
+      results.push({ name, status: "Passed", details });
+    } catch (error) {
+      results.push({ name, status: "Failed", details: [formatError(error)] });
+    }
+  }
+
+  await writeSummary(renderSummary(results));
+
+  if (results.some(({ status }) => status === "Failed")) {
+    process.exitCode = 1;
   }
 };
 
-lintProjectData();
-await lintComponents();
-await lintReadme();
-await lintWorkflowContracts();
+await runLint();
