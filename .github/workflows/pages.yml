@@ -1,4 +1,4 @@
-name: Build and Deploy Pages
+name: Build, Tests, Lint, Deploy
 
 on:
   push:
@@ -20,7 +20,48 @@ concurrency:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update generated README project list
+        run: npm run readme:update
+
+      - name: Commit README updates
+        run: |
+          if git diff --quiet -- README.md; then
+            echo "README.md is already up to date"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "Update generated README project list [skip ci]"
+            git push
+          fi
+
+      - name: Build project
+        run: npm run build
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -43,32 +84,38 @@ jobs:
       - name: Run app tests
         run: npm run test:app
 
-      - name: Build project
-        run: npm run build
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
 
-      - name: Commit README updates
-        run: |
-          if git diff --quiet -- README.md; then
-            echo "README.md is already up to date"
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add README.md
-            git commit -m "Update generated README project list [skip ci]"
-            git push
-          fi
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v5
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
         with:
-          path: dist
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update generated README project list
+        run: npm run readme:update
+
+      - name: Run lint
+        run: npm run lint
 
   deploy:
+    name: Deploy
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs:
+      - build
+      - lint
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

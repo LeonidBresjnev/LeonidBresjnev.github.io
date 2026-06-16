@@ -1,6 +1,9 @@
 # Jacob Simonsen
 
-![Build Status](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg)
+[![Build](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
+[![Tests](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
+[![Lint](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
+[![Deploy](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml/badge.svg?branch=main)](https://github.com/LeonidBresjnev/LeonidBresjnev.github.io/actions/workflows/pages.yml)
 
 Landing page: https://leonidbresjnev.github.io/
 

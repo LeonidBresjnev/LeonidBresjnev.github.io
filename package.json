@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "readme:update": "node scripts/update-readme.mjs",
+    "lint": "node scripts/lint.mjs",
     "test": "node scripts/run-tests.mjs",
     "test:content": "node scripts/test-site.mjs",
     "test:app": "vitest run",
