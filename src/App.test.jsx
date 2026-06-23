@@ -31,7 +31,7 @@ const projects = [
   ],
   [
     "myMediaPlayer",
-    null,
+    "https://appetize.io/app/q5df44magq2chezpiwg63nu7i4",
     "https://github.com/LeonidBresjnev/myMediaPlayer",
   ],
   [
