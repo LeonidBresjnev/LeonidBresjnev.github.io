@@ -55,6 +55,7 @@ export const projects = [
   },
   {
     name: "myMediaPlayer",
+    href: "https://appetize.io/app/q5df44magq2chezpiwg63nu7i4",  
     repoHref: "https://github.com/LeonidBresjnev/myMediaPlayer",
     icon: "headphones",
     blurb:
