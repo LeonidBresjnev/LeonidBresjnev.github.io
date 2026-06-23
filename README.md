@@ -27,7 +27,7 @@ Landing page: https://leonidbresjnev.github.io/
 5. [Crossplatform Capstone Project](https://leonidbresjnev.github.io/CrossplatformCapstoneProject/) ([GitHub](https://github.com/LeonidBresjnev/CrossplatformCapstoneProject))
    - Expo
    - JavaScript
-6. [myMediaPlayer](https://github.com/LeonidBresjnev/myMediaPlayer)
+6. [myMediaPlayer](https://appetize.io/app/q5df44magq2chezpiwg63nu7i4) ([GitHub](https://github.com/LeonidBresjnev/myMediaPlayer))
    - C++
    - Kotlin
    - Jetpack Compose
