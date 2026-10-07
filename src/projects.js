@@ -79,5 +79,17 @@ export const projects = [
       { name: "Jetpack Compose", logos: ["compose"] },
       { name: "Signal processing", logos: ["signal-processing"] },
     ],
+  },,
+  {
+    name: "FM-synthesizer",
+    href: "https://leonidbresjnev.github.io/FmSynthesizer/",
+    repoHref: "https://github.com/LeonidBresjnev/FmSynthesizer.git",
+    icon: "chart",
+    blurb: "Exploration and comparison of signal-processing filter types.",
+    frameworks: [
+      { name: "Kotlin", logos: ["kotlin"] },
+      { name: "Jetpack Compose", logos: ["compose"] },
+      { name: "Signal processing", logos: ["signal-processing"] },
+    ],
   },
 ];
