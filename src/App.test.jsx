@@ -39,6 +39,11 @@ const projects = [
     null,
     "https://github.com/LeonidBresjnev/filterexplorer.git",
   ],
+  [
+    "FM-synthesizer",
+    "https://leonidbresjnev.github.io/FmSynthesizer/",
+    "https://github.com/LeonidBresjnev/FmSynthesizer.git",
+  ],
 ];
 
 const getStackBadgeLogoSignatures = (label) =>
@@ -124,12 +129,12 @@ describe("App", () => {
     expect(screen.getByText("Bayesian modelling")).toBeInTheDocument();
     expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
     expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
-    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(4);
+    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(5);
     expect(screen.getByText("C++")).toBeInTheDocument();
-    expect(screen.getAllByText("Kotlin")).toHaveLength(2);
+    expect(screen.getAllByText("Kotlin")).toHaveLength(3);
     expect(screen.getByText("Android")).toBeInTheDocument();
     expect(screen.getByText("Android Auto")).toBeInTheDocument();
-    expect(screen.getAllByText("Signal processing")).toHaveLength(2);
+    expect(screen.getAllByText("Signal processing")).toHaveLength(3);
   });
 
   it("does not render the old card tag chips", () => {
@@ -178,12 +183,12 @@ describe("App", () => {
     expect(container.querySelectorAll('[data-logo="expo"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="bayes"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="cplusplus"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(5);
+    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(6);
     expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(4);
+    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(5);
     expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
     expect(container.querySelectorAll('[data-logo="android-auto"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="signal-processing"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-logo="signal-processing"]')).toHaveLength(3);
     expect(container.querySelector('[data-logo="bayes"]')).toHaveAttribute(
       "src",
       "./logos/bayes.png",
@@ -216,9 +221,9 @@ describe("App", () => {
     const repeatedStacks = [
       ["JavaScript/React", 2],
       ["Kotlin/WASM", 2],
-      ["Kotlin", 2],
-      ["Jetpack Compose", 4],
-      ["Signal processing", 2],
+      ["Kotlin", 3],
+      ["Jetpack Compose", 5],
+      ["Signal processing", 3],
     ];
 
     for (const [label, expectedCount] of repeatedStacks) {

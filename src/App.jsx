@@ -11,6 +11,7 @@ const projectDelayClasses = [
   "[animation-delay:610ms]",
   "[animation-delay:730ms]",
   "[animation-delay:850ms]",
+  "[animation-delay:970ms]",
 ];
 
 function App() {
