@@ -79,7 +79,7 @@ export const projects = [
       { name: "Jetpack Compose", logos: ["compose"] },
       { name: "Signal processing", logos: ["signal-processing"] },
     ],
-  },,
+  },
   {
     name: "FM-synthesizer",
     href: "https://leonidbresjnev.github.io/FmSynthesizer/",
