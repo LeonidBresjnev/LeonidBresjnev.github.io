@@ -38,8 +38,7 @@ Landing page: https://leonidbresjnev.github.io/
    - Kotlin
    - Jetpack Compose
    - Signal processing
-
-9. [FM-synthesizer](https://leonidbresjnev.github.io/FmSynthesizer/) ([GitHub](https://github.com/LeonidBresjnev/FmSynthesizer.git))
+8. [FM-synthesizer](https://leonidbresjnev.github.io/FmSynthesizer/) ([GitHub](https://github.com/LeonidBresjnev/FmSynthesizer.git))
    - Kotlin
    - Jetpack Compose
    - Signal processing
