@@ -92,4 +92,13 @@ export const projects = [
       { name: "Signal processing", logos: ["signal-processing"] },
     ],
   },
+  {
+    name: "Bestyrelsens scrumboard",
+    href: "https://leonidbresjnev.github.io/Enghojparken/",
+    repoHref: "https://github.com/LeonidBresjnev/Enghojparken.git",
+    icon: "chart",
+    blurb: "A projectoverview, with interactive controls",
+    frameworks: [{ name: "JavaScript/React", logos: ["javascript", "react"] }],
+  },
+
 ];
