@@ -2,66 +2,41 @@ import "@testing-library/jest-dom/vitest";
 import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it } from "vitest";
 import App from "./App";
+import { projects } from "./projects";
 
-const projects = [
-  [
-    "Bibliografi",
-    "https://leonidbresjnev.github.io/bibliografi/",
-    "https://github.com/LeonidBresjnev/bibliografi",
-  ],
-  [
-    "Rubik Cube Solver",
-    "https://leonidbresjnev.github.io/rubiks-cube/",
-    "https://github.com/LeonidBresjnev/rubiks-cube",
-  ],
-  [
-    "Bayesian information borrowing",
-    "https://leonidbresjnev.github.io/funwithwasm/",
-    "https://github.com/LeonidBresjnev/funwithwasm",
-  ],
-  [
-    "Fun with OpenFDA",
-    "https://leonidbresjnev.github.io/funwithopenfda/",
-    "https://github.com/LeonidBresjnev/funwithopenfda",
-  ],
-  [
-    "Crossplatform Capstone Project",
-    "https://leonidbresjnev.github.io/CrossplatformCapstoneProject/",
-    "https://github.com/LeonidBresjnev/CrossplatformCapstoneProject",
-  ],
-  [
-    "myMediaPlayer",
-    "https://appetize.io/app/q5df44magq2chezpiwg63nu7i4",
-    "https://github.com/LeonidBresjnev/myMediaPlayer",
-  ],
-  [
-    "filterexplorer",
-    null,
-    "https://github.com/LeonidBresjnev/filterexplorer.git",
-  ],
-  [
-    "FM-synthesizer",
-    "https://leonidbresjnev.github.io/FmSynthesizer/",
-    "https://github.com/LeonidBresjnev/FmSynthesizer.git",
-  ],
-];
+const frameworkCounts = projects
+  .flatMap(({ frameworks }) => frameworks)
+  .reduce((counts, framework) => {
+    counts.set(framework.name, (counts.get(framework.name) ?? 0) + 1);
+    return counts;
+  }, new Map());
 
-const getStackBadgeLogoSignatures = (label) =>
-  screen.getAllByText(label).map((badgeText) => {
-    const badge = badgeText.closest("span");
+const logoCounts = projects
+  .flatMap(({ frameworks }) => frameworks.flatMap(({ logos }) => logos))
+  .reduce((counts, logo) => {
+    counts.set(logo, (counts.get(logo) ?? 0) + 1);
+    return counts;
+  }, new Map());
 
-    if (!badge) {
-      throw new Error(`Missing stack badge for ${label}`);
-    }
+const getStackBadges = (container) =>
+  [...container.querySelectorAll("article .flex.flex-wrap > span")];
+const getStackBadgeName = (badge) =>
+  badge.querySelector("[aria-label]")?.getAttribute("aria-label") ?? badge.textContent.trim();
 
-    const logos = [...badge.querySelectorAll("[data-logo]")];
+const getStackBadgeLogoSignatures = (container, label) =>
+  getStackBadges(container)
+    .filter((badge) => getStackBadgeName(badge) === label)
+    .map((badge) => {
+      const logos = [...badge.querySelectorAll("[data-logo]")];
 
-    if (logos.length === 0) {
-      throw new Error(`Missing stack logo for ${label}`);
-    }
+      if (logos.length === 0) {
+        throw new Error(`Missing stack logo for ${label}`);
+      }
 
-    return logos.map((logo) => `${logo.getAttribute("data-logo")}:${logo.getAttribute("class")}`);
-  });
+      return logos.map(
+        (logo) => `${logo.getAttribute("data-logo")}:${logo.getAttribute("class")}`,
+      );
+    });
 
 afterEach(() => {
   cleanup();
@@ -87,19 +62,19 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
-      .toEqual(projects.map(([name]) => name));
+      .toEqual(projects.map(({ name }) => name));
 
-    const projectsWithPages = projects.filter(([, pageHref]) => pageHref);
+    const projectsWithPages = projects.filter(({ href }) => href);
     expect(screen.getAllByRole("link", { name: /open page/i })).toHaveLength(projectsWithPages.length);
     screen.getAllByRole("link", { name: /open page/i }).forEach((link, index) => {
-      expect(link).toHaveAttribute("href", projectsWithPages[index][1]);
+      expect(link).toHaveAttribute("href", projectsWithPages[index].href);
     });
-    const projectsWithRepos = projects.filter(([, , repoHref]) => repoHref);
+    const projectsWithRepos = projects.filter(({ repoHref }) => repoHref);
     expect(screen.getAllByRole("link", { name: /open project/i })).toHaveLength(
       projectsWithRepos.length,
     );
     screen.getAllByRole("link", { name: /open project/i }).forEach((link, index) => {
-      expect(link).toHaveAttribute("href", projectsWithRepos[index][2]);
+      expect(link).toHaveAttribute("href", projectsWithRepos[index].repoHref);
     });
 
     expect(screen.getByText("A visual interface to OpenFDA with text-context search using OpenAI."))
@@ -114,27 +89,22 @@ describe("App", () => {
   });
 
   it("shows stack badges sourced from the project repositories", () => {
-    render(<App />);
+    const { container } = render(<App />);
 
     expect(screen.queryByText("Stack")).not.toBeInTheDocument();
-    expect(screen.getByLabelText("BibTeX")).toBeInTheDocument();
+    const renderedFrameworkCounts = getStackBadges(container).reduce((counts, badge) => {
+      const name = getStackBadgeName(badge);
+      counts.set(name, (counts.get(name) ?? 0) + 1);
+      return counts;
+    }, new Map());
+
+    expect(renderedFrameworkCounts).toEqual(frameworkCounts);
+
     expect(screen.queryByText("\\BibTex")).not.toBeInTheDocument();
-    expect(screen.getAllByText("JavaScript/React")).toHaveLength(2);
-    expect(screen.getByText("Expo")).toBeInTheDocument();
-    expect(screen.getByText("JavaScript")).toBeInTheDocument();
     expect(screen.queryByText("Vite")).not.toBeInTheDocument();
     expect(screen.queryByText("React")).not.toBeInTheDocument();
     expect(screen.queryByText("Three.js")).not.toBeInTheDocument();
     expect(screen.queryByText("Fun with WASM")).not.toBeInTheDocument();
-    expect(screen.getByText("Bayesian modelling")).toBeInTheDocument();
-    expect(screen.getAllByText("Kotlin/WASM")).toHaveLength(2);
-    expect(screen.getByText("Kotlin/Ktor")).toBeInTheDocument();
-    expect(screen.getAllByText("Jetpack Compose")).toHaveLength(5);
-    expect(screen.getByText("C++")).toBeInTheDocument();
-    expect(screen.getAllByText("Kotlin")).toHaveLength(3);
-    expect(screen.getByText("Android")).toBeInTheDocument();
-    expect(screen.getByText("Android Auto")).toBeInTheDocument();
-    expect(screen.getAllByText("Signal processing")).toHaveLength(3);
   });
 
   it("does not render the old card tag chips", () => {
@@ -177,18 +147,13 @@ describe("App", () => {
   it("renders stack logos for the named technologies", () => {
     const { container } = render(<App />);
 
-    expect(container.querySelectorAll('[data-logo="bibtex"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="javascript"]')).toHaveLength(3);
-    expect(container.querySelectorAll('[data-logo="react"]')).toHaveLength(2);
-    expect(container.querySelectorAll('[data-logo="expo"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="bayes"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="cplusplus"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="kotlin"]')).toHaveLength(6);
-    expect(container.querySelectorAll('[data-logo="ktor"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="compose"]')).toHaveLength(5);
-    expect(container.querySelectorAll('[data-logo="android"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="android-auto"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[data-logo="signal-processing"]')).toHaveLength(3);
+    const renderedLogoCounts = [...container.querySelectorAll("[data-logo]")].reduce((counts, logo) => {
+      const name = logo.getAttribute("data-logo");
+      counts.set(name, (counts.get(name) ?? 0) + 1);
+      return counts;
+    }, new Map());
+
+    expect(renderedLogoCounts).toEqual(logoCounts);
     expect(container.querySelector('[data-logo="bayes"]')).toHaveAttribute(
       "src",
       "./logos/bayes.png",
@@ -216,18 +181,12 @@ describe("App", () => {
   });
 
   it("uses consistent logos for repeated stack badges", () => {
-    render(<App />);
+    const { container } = render(<App />);
 
-    const repeatedStacks = [
-      ["JavaScript/React", 2],
-      ["Kotlin/WASM", 2],
-      ["Kotlin", 3],
-      ["Jetpack Compose", 5],
-      ["Signal processing", 3],
-    ];
+    for (const [label, expectedCount] of frameworkCounts) {
+      if (expectedCount < 2) continue;
 
-    for (const [label, expectedCount] of repeatedStacks) {
-      const renderedLogoSignatures = getStackBadgeLogoSignatures(label);
+      const renderedLogoSignatures = getStackBadgeLogoSignatures(container, label);
 
       expect(renderedLogoSignatures).toHaveLength(expectedCount);
       expect(new Set(renderedLogoSignatures.map((signature) => signature.join("|"))).size).toBe(1);
