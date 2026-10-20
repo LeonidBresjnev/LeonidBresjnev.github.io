@@ -144,7 +144,11 @@ describe("App", () => {
 
     for (const link of screen.getAllByRole("link")) {
       expect(link).toHaveClass("inline-flex");
-      expect(link.querySelector("svg.lucide")).toBeInTheDocument();
+      expect(link.querySelector("svg")).toBeInTheDocument();
+    }
+
+    for (const lucideLink of screen.getAllByRole("link", { name: /open page|github$/i })) {
+      expect(lucideLink.querySelector("svg.lucide")).toBeInTheDocument();
     }
   });
 

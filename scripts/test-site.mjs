@@ -154,7 +154,7 @@ test("styling stays Tailwind-first and interface icons stay Lucide-first", async
 
   assert.equal(/\bstyle=/.test(componentSources), false, "Inline styles should not replace Tailwind utilities");
 
-  for (const icon of ["ArrowUpRight", "BadgeCheck", "Github", "ExternalLink"]) {
+  for (const icon of ["ArrowUpRight", "BadgeCheck", "ExternalLink", "Globe2"]) {
     assert.match(componentSources, new RegExp(`\\b${icon}\\b`), `${icon} should remain a Lucide UI icon`);
   }
 });
