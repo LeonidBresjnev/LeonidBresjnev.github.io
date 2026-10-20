@@ -5,7 +5,16 @@ import { projects } from "../src/projects.js";
 const readText = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
 const requiredProjectFields = ["name", "repoHref", "icon", "blurb", "frameworks"];
-const validIconNames = new Set(["book", "boxes", "chart", "database", "headphones", "smartphone"]);
+const validIconNames = new Set([
+  "audio",
+  "book",
+  "boxes",
+  "chart",
+  "database",
+  "headphones",
+  "kanban",
+  "smartphone",
+]);
 const workflowSpecs = [
   {
     label: "Build",
