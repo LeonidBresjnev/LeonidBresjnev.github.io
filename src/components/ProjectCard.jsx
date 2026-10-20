@@ -6,22 +6,39 @@ import {
   Boxes,
   ChartSpline,
   Database,
-  Github,
   Headphones,
+  Kanban,
   Smartphone,
 } from "lucide-react";
 
+function GitHubLogo({ size = 15, className = "" }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className={className}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M12 .297a12 12 0 0 0-3.794 23.385c.6.111.82-.258.82-.577v-2.234c-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.757-1.333-1.757-1.09-.744.084-.729.084-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.833 2.809 1.304 3.495.997.108-.775.418-1.305.762-1.605-2.665-.303-5.467-1.334-5.467-5.932 0-1.311.469-2.381 1.236-3.221-.123-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.49 11.49 0 0 1 6.007 0c2.292-1.552 3.3-1.23 3.3-1.23.653 1.653.241 2.873.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.61-2.807 5.625-5.479 5.921.43.372.814 1.103.814 2.222v3.293c0 .322.218.694.825.576A12.004 12.004 0 0 0 12 .297" />
+    </svg>
+  );
+}
+
 const projectIcons = {
+  audio: AudioLines,
   book: BookOpen,
   boxes: Boxes,
   chart: ChartSpline,
   database: Database,
   headphones: Headphones,
+  kanban: Kanban,
   smartphone: Smartphone,
 };
 
 const stackBadgeClass =
-  "border-slate-200 bg-white text-slate-900 shadow-sm shadow-slate-200/60";
+  "border-white/15 bg-slate-900/50 text-slate-100 shadow-sm shadow-slate-950/50";
 
 // Brand path data is from Simple Icons (CC0). BibTeX has no Simple Icons logo.
 const stackLogos = {
@@ -154,18 +171,18 @@ export function ProjectCard({ project, delayClass }) {
 
   return (
     <article
-      className={`group animate-appear relative overflow-hidden rounded-3xl border border-sky-200 bg-white p-5 shadow-glow transition hover:-translate-y-1 hover:border-sky-400 ${delayClass}`}
+      className={`group animate-appear relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-5 shadow-glow backdrop-blur-sm transition hover:-translate-y-1 hover:border-cyan-300/50 ${delayClass}`}
     >
       <div className="flex items-start gap-3">
-        <div className="inline-flex shrink-0 rounded-xl border border-sky-100 bg-sky-50 p-3 text-sky-700">
+        <div className="inline-flex shrink-0 rounded-xl border border-white/20 bg-slate-900/45 p-3 text-cyan-200">
           <Icon size={19} />
         </div>
-        <h2 className="font-display text-2xl text-slate-950">{name}</h2>
+        <h2 className="font-display text-2xl text-white">{name}</h2>
       </div>
 
-      <p className="mt-3 text-sm leading-relaxed text-slate-700">{blurb}</p>
+      <p className="mt-3 text-sm leading-relaxed text-slate-300">{blurb}</p>
 
-      <div className="mt-5 border-t border-sky-100 pt-4">
+      <div className="mt-5 border-t border-white/10 pt-4">
         <div className="flex flex-wrap gap-2">
           {frameworks.map(({ name: frameworkName, logos, mark }) => (
             <span
@@ -190,7 +207,7 @@ export function ProjectCard({ project, delayClass }) {
           {href ? (
             <a
               href={href}
-              className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-sky-200 bg-sky-100 px-2.5 py-2 text-sm font-medium text-slate-900 transition hover:border-sky-400 hover:bg-sky-200"
+              className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-cyan-200/30 bg-cyan-300/20 px-2.5 py-2 text-sm font-medium text-cyan-50 transition hover:border-cyan-100/50 hover:bg-cyan-300/30"
             >
               Open page
               <ArrowUpRight size={15} className="shrink-0" />
@@ -199,10 +216,10 @@ export function ProjectCard({ project, delayClass }) {
           {repoHref ? (
             <a
               href={repoHref}
-              className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 text-sm font-medium text-slate-800 transition hover:border-slate-400 hover:bg-slate-50"
+              className="inline-flex min-w-0 items-center justify-center gap-1.5 rounded-xl border border-white/20 bg-white/10 px-2.5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/35 hover:bg-white/15"
             >
               Open project
-              <Github size={15} className="shrink-0" />
+              <GitHubLogo size={15} className="shrink-0" />
             </a>
           ) : null}
         </div>

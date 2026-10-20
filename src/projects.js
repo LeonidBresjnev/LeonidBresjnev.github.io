@@ -84,7 +84,7 @@ export const projects = [
     name: "FM-synthesizer",
     href: "https://leonidbresjnev.github.io/FmSynthesizer/",
     repoHref: "https://github.com/LeonidBresjnev/FmSynthesizer.git",
-    icon: "chart",
+    icon: "audio",
     blurb: "Exploration and comparison of signal-processing filter types.",
     frameworks: [
       { name: "Kotlin", logos: ["kotlin"] },
@@ -96,7 +96,7 @@ export const projects = [
     name: "Bestyrelsens scrumboard",
     href: "https://leonidbresjnev.github.io/Enghojparken/",
     repoHref: "https://github.com/LeonidBresjnev/Enghojparken.git",
-    icon: "chart",
+    icon: "kanban",
     blurb: "A projectoverview, with interactive controls",
     frameworks: [{ name: "JavaScript/React", logos: ["javascript", "react"] }],
   },

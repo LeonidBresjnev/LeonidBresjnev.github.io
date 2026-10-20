@@ -62,7 +62,7 @@ describe("App", () => {
     render(<App />);
 
     expect(screen.getAllByRole("heading", { level: 2 }).map((heading) => heading.textContent))
-      .toEqual(projects.map(({ name }) => name));
+      .toEqual(["Projects", ...projects.map(({ name }) => name)]);
 
     const projectsWithPages = projects.filter(({ href }) => href);
     expect(screen.getAllByRole("link", { name: /open page/i })).toHaveLength(projectsWithPages.length);
@@ -130,11 +130,15 @@ describe("App", () => {
     expect(container.querySelector("[style]")).not.toBeInTheDocument();
     expect(container.firstElementChild).toHaveClass("relative", "overflow-hidden");
     expect(container.querySelector("main")).toHaveClass("mx-auto", "flex", "min-h-screen");
-    expect(container.querySelector("header")).toHaveClass("animate-appear", "bg-white", "shadow-glow");
+    expect(container.querySelector("header")).toHaveClass(
+      "animate-appear",
+      "bg-white/10",
+      "shadow-glow",
+    );
     expect(container.querySelector(".lucide-badge-check")).toBeInTheDocument();
 
     for (const card of container.querySelectorAll("article")) {
-      expect(card).toHaveClass("group", "animate-appear", "border", "bg-white");
+      expect(card).toHaveClass("group", "animate-appear", "border", "bg-white/10");
       expect(card.querySelector("svg.lucide")).toBeInTheDocument();
     }
 
