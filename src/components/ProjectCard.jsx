@@ -91,6 +91,10 @@ const stackLogos = {
     label: "Jetpack Compose",
     src: "./logos/jetpack-compose.png",
   },
+  typescript: {
+    label: "Jetpack Compose",
+    src: "./logos/typescript.svg",
+  },
   "signal-processing": {
     label: "Signal processing",
     className: "text-cyan-700",
