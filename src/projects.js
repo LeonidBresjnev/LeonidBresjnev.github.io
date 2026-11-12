@@ -100,5 +100,13 @@ export const projects = [
     blurb: "A projectoverview, with interactive controls",
     frameworks: [{ name: "JavaScript/React", logos: ["javascript", "react"] }],
   },
+  {
+    name: "Custom Kanban Board",
+    href: "https://kanban-235f8.web.app",
+    repoHref: "https://github.com/LeonidBresjnev/kanban.git",
+    icon: "kanban",
+    blurb: "A custom projectoverview, with interactive controls",
+    frameworks: [{ name: "TypeScript/React", logos: ["typescript", "react"] }],
+  },
 
 ];
