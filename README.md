@@ -44,4 +44,6 @@ Landing page: https://leonidbresjnev.github.io/
    - Signal processing
 9. [Bestyrelsens scrumboard](https://leonidbresjnev.github.io/Enghojparken/) ([GitHub](https://github.com/LeonidBresjnev/Enghojparken.git))
    - JavaScript/React
+10. [Custom Kanban Board](https://kanban-235f8.web.app) ([GitHub](https://github.com/LeonidBresjnev/kanban.git))
+   - TypeScript/React
 <!-- PROJECTS:END -->
