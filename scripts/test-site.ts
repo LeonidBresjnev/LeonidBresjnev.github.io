@@ -127,7 +127,7 @@ test('shared project data includes the intended links in order', async () => {
     previousIndex = nameIndex;
   }
 
-  assert.match(app, /import \{ projects \} from "\.\/projects"/);
+  assert.match(app, /import \{ projects \} from ["']\.\/projects["']/);
   assert.match(app, /<ProjectCard\b/);
   assert.match(app, /<LandingHeader \/>/);
   assert.match(

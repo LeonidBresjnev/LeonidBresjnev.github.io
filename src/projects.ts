@@ -3,7 +3,9 @@ export type ProjectIcon =
   | 'book'
   | 'boxes'
   | 'chart'
+  | 'columns'
   | 'database'
+  | 'filter'
   | 'headphones'
   | 'kanban'
   | 'smartphone';
@@ -112,7 +114,7 @@ export const projects: Project[] = [
   {
     name: 'filterexplorer',
     repoHref: 'https://github.com/LeonidBresjnev/filterexplorer.git',
-    icon: 'chart',
+    icon: 'filter',
     blurb: 'Exploration and comparison of signal-processing filter types.',
     frameworks: [
       { name: 'Kotlin', logos: ['kotlin'] },
@@ -136,7 +138,7 @@ export const projects: Project[] = [
     name: 'Bestyrelsens scrumboard',
     href: 'https://leonidbresjnev.github.io/Enghojparken/',
     repoHref: 'https://github.com/LeonidBresjnev/Enghojparken.git',
-    icon: 'kanban',
+    icon: 'columns',
     blurb: 'A projectoverview, with interactive controls',
     frameworks: [{ name: 'JavaScript/React', logos: ['javascript', 'react'] }],
   },

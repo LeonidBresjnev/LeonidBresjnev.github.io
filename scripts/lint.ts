@@ -18,7 +18,9 @@ const validIconNames = new Set([
   'book',
   'boxes',
   'chart',
+  'columns',
   'database',
+  'filter',
   'headphones',
   'kanban',
   'smartphone',
@@ -190,9 +192,9 @@ const lintComponents = async () => {
     ['src/components/ProjectCard.tsx', card],
   ];
 
-  assert.match(app, /from "\.\/components\/LandingHeader"/);
-  assert.match(app, /from "\.\/components\/ProjectCard"/);
-  assert.match(app, /from "\.\/projects"/);
+  assert.match(app, /from ["']\.\/components\/LandingHeader["']/);
+  assert.match(app, /from ["']\.\/components\/ProjectCard["']/);
+  assert.match(app, /from ["']\.\/projects["']/);
 
   for (const [path, source] of jsxSources) {
     assert.equal(

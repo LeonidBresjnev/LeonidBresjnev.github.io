@@ -4,9 +4,11 @@ import {
   BookOpen,
   Boxes,
   ChartSpline,
+  Columns3,
   Database,
   Headphones,
   Kanban,
+  SlidersHorizontal,
   Smartphone,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
@@ -42,7 +44,9 @@ const projectIcons: Record<ProjectIcon, LucideIcon> = {
   book: BookOpen,
   boxes: Boxes,
   chart: ChartSpline,
+  columns: Columns3,
   database: Database,
+  filter: SlidersHorizontal,
   headphones: Headphones,
   kanban: Kanban,
   smartphone: Smartphone,
