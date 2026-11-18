@@ -10,7 +10,8 @@ Landing page: https://leonidbresjnev.github.io/
 ## Projects
 
 <!-- PROJECTS:START -->
-<!-- This list is generated from src/projects.js by npm run readme:update. -->
+<!-- This list is generated from src/projects.ts by npm run readme:update. -->
+
 1. [Bibliografi](https://leonidbresjnev.github.io/bibliografi/) ([GitHub](https://github.com/LeonidBresjnev/bibliografi))
    - BibTeX
    - JavaScript/React
@@ -45,5 +46,7 @@ Landing page: https://leonidbresjnev.github.io/
 9. [Bestyrelsens scrumboard](https://leonidbresjnev.github.io/Enghojparken/) ([GitHub](https://github.com/LeonidBresjnev/Enghojparken.git))
    - JavaScript/React
 10. [Custom Kanban Board](https://kanban-235f8.web.app) ([GitHub](https://github.com/LeonidBresjnev/kanban.git))
-   - TypeScript/React
+
+- TypeScript/React
+
 <!-- PROJECTS:END -->

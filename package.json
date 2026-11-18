@@ -5,15 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "readme:update": "node scripts/update-readme.mjs",
-    "lint": "node scripts/lint.mjs",
-    "test": "node scripts/run-tests.mjs",
-    "test:content": "node scripts/test-site.mjs",
+    "readme:update": "tsx scripts/update-readme.ts",
+    "lint": "tsx scripts/lint.ts",
+    "test": "tsx scripts/run-tests.ts",
+    "test:content": "tsx scripts/test-site.ts",
     "test:app": "vitest run",
-    "build": "vite build",
-    "summary:build": "node scripts/report-build.mjs",
-    "summary:deploy": "node scripts/report-deploy.mjs",
-    "preview": "vite preview"
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "summary:build": "tsx scripts/report-build.ts",
+    "summary:deploy": "tsx scripts/report-deploy.ts",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
@@ -25,12 +28,16 @@
     "@emnapi/runtime": "^1.11.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/node": "^22.15.30",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "autoprefixer": "^10.4.21",
     "jsdom": "^29.1.1",
     "postcss": "^8.5.6",
+    "prettier": "^3.10.1",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.8.3",
     "vite": "^5.4.19",
     "vitest": "^4.1.8"
   }

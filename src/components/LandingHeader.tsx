@@ -1,13 +1,14 @@
-import React from "react";
-import {
-  BadgeCheck,
-  ExternalLink,
-  Globe2,
-  Layers,
-} from "lucide-react";
-import { projects } from "../projects";
+import { BadgeCheck, ExternalLink, Globe2, Layers } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { projects } from '../projects';
 
-function GitHubLogo({ size = 16, className = "" }) {
+function GitHubLogo({
+  size = 16,
+  className = '',
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -23,19 +24,25 @@ function GitHubLogo({ size = 16, className = "" }) {
 }
 
 const highlightDelayClasses = [
-  "[animation-delay:0ms]",
-  "[animation-delay:110ms]",
+  '[animation-delay:0ms]',
+  '[animation-delay:110ms]',
 ];
 
 export function LandingHeader() {
   const projectCount = projects.length;
-  const pageSitesCount = projects.filter((project) => Boolean(project.href)).length;
+  const pageSitesCount = projects.filter((project) =>
+    Boolean(project.href),
+  ).length;
 
-  const highlights = [
-    { label: "Projects", value: String(projectCount).padStart(2, "0"), icon: Layers },
+  const highlights: { label: string; value: string; icon: LucideIcon }[] = [
     {
-      label: "Pages sites",
-      value: String(pageSitesCount).padStart(2, "0"),
+      label: 'Projects',
+      value: String(projectCount).padStart(2, '0'),
+      icon: Layers,
+    },
+    {
+      label: 'Pages sites',
+      value: String(pageSitesCount).padStart(2, '0'),
       icon: Globe2,
     },
   ];

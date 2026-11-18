@@ -1,17 +1,16 @@
-import React from "react";
-import { LandingHeader } from "./components/LandingHeader";
-import { ProjectCard } from "./components/ProjectCard";
-import { projects } from "./projects";
+import { LandingHeader } from './components/LandingHeader';
+import { ProjectCard } from './components/ProjectCard';
+import { projects } from './projects';
 
 const projectDelayClasses = [
-  "[animation-delay:130ms]",
-  "[animation-delay:250ms]",
-  "[animation-delay:370ms]",
-  "[animation-delay:490ms]",
-  "[animation-delay:610ms]",
-  "[animation-delay:730ms]",
-  "[animation-delay:850ms]",
-  "[animation-delay:970ms]",
+  '[animation-delay:130ms]',
+  '[animation-delay:250ms]',
+  '[animation-delay:370ms]',
+  '[animation-delay:490ms]',
+  '[animation-delay:610ms]',
+  '[animation-delay:730ms]',
+  '[animation-delay:850ms]',
+  '[animation-delay:970ms]',
 ];
 
 function App() {
@@ -26,7 +25,9 @@ function App() {
 
         <section className="mt-7 sm:mt-9">
           <div className="mb-4 flex items-center justify-between gap-3 sm:mb-5">
-            <h2 className="font-display text-2xl text-slate-100 sm:text-3xl">Projects</h2>
+            <h2 className="font-display text-2xl text-slate-100 sm:text-3xl">
+              Projects
+            </h2>
             <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs tracking-wide text-slate-200">
               Selected work
             </span>
@@ -37,7 +38,7 @@ function App() {
               <ProjectCard
                 key={project.name}
                 project={project}
-                delayClass={projectDelayClasses[index]}
+                delayClass={projectDelayClasses[index] ?? ''}
               />
             ))}
           </div>
